@@ -61,13 +61,17 @@ app.use("/api/uploads", express.static("api/uploads"));
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
   //Set static folder
-  app.use(express.static("Predictive-Sales-Inventory-MS-master/build"));
+  app.use(
+    express.static(
+      path.join(__dirname, "Predictive-Sales-Inventory-MS-master", "public")
+    )
+  );
   app.get("*", (req, res) => {
     res.sendFile(
       path.join(
         __dirname,
         "Predictive-Sales-Inventory-MS-master",
-        "build",
+        "public",
         "index.html"
       )
     );
