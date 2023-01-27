@@ -113,7 +113,7 @@ router.post(
   }
 );
 
-router.post("/login", isActive, loginValidator, async (req, res) => {
+router.post("/login", loginValidator, async (req, res) => {
   try {
     const { email, password } = req.body;
     let userExists = await authenticateUserWithRole(email, password);
