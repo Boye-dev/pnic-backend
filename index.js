@@ -14,17 +14,18 @@ const path = require("path");
 // Cors configuration
 const corsOptions = {
   origin: [
-    "https://scam-educator-chatbot-production.up.railway.app/",
     "http://localhost:3000",
+    "https://scam-educator-chatbot-production.up.railway.app/",
   ],
-
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
 // // To allow CORS
-app.options("*", cors());
 app.use(cors(corsOptions));
-app.use(cors({ methods: ["GET", "POST", "PUT"] }));
+// Set app proxy
+// app.set("trust proxy", 1);
+
+//To allow json requests and decode requests from forms
 
 // Set app proxy
 // app.set("trust proxy", 1);
@@ -58,15 +59,15 @@ app.use("/api", require("./controllers/sale"));
 app.use("/api/uploads", express.static("api/uploads"));
 
 // Serve static assets if in production
-// if (process.env.NODE_ENV === "production") {
-//   //Set static folder
-//   app.use(express.static("client_frontend/build"));
-//   app.get("*", (req, res) => {
-//     res.sendFile(
-//       path.resolve(__dirname, "client_frontend", "build", "index.html")
-//     );
-//   });
-// }
+if (process.env.NODE_ENV === "production") {
+  //Set static folder
+  app.use(express.static("Predictive-Sales-Inventory-MS-master"));
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "Predictive-Sales-Inventory-MS-master", "index.html")
+    );
+  });
+}
 
 //Invalid Route   //NB: using app.use instead of app.get/post handles all wrong requests and throws the message (For our API in dev/prod)
 app.use("*", (req, res) => {
