@@ -1,0 +1,18 @@
+{
+    "/api": "API DOCs for WestWay Website Server API ",
+    "/api/signup": "User signup (POST request)",
+    "/api/login": "User Login (POST request)",
+    "/api/editProfile/:id": "User Edit details (email, firstname, lastname, username) by ID. (PUT request)  ",
+    "/api/editProfile/password/:id": "User Change/Edit Password by ID. (PUT request)  ",
+    "/api/forgotPassword": "User forgot password.  (POST request)",
+    "/api/resetPassword/:id": "User reset password by ID (For Admins who have submitted a forgot password request). (PUT request)  ",
+    "/api/user/:id": "To get a users info by his/her id",
+    "/api/signupAndOrSignin'": "User sign up and or sign in route. Right before checkout, a user who enters his email or logs in with google would either get a new account created or just be logged in so he/she can proceed with their order. (POST request)",
+    "/api/logout": "To Logout",
+    "/api/product/:id": "To get a specific product by id",
+    "/api/products": "To get all Products",
+    "/api/addProduct": "Admin can create/add a New Product (POST request)",
+    "/api/editProduct/:id": "Admin can change/edit a Product by ID. (PUT request)",
+    "/api/deleteProduct/:id": "Admin can delete a Product. (DELETE request)",
+    "*": "Every other route is invalid and doesn't exist"
+}
