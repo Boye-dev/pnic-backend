@@ -22,8 +22,9 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 // // To allow CORS
-
+app.options("*", cors());
 app.use(cors(corsOptions));
+app.use(cors({ methods: ["GET", "POST", "PUT"] }));
 
 // Set app proxy
 // app.set("trust proxy", 1);
