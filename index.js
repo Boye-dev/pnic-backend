@@ -1,6 +1,7 @@
 //Load database configuration file and allow us read environment variables
 require("dotenv").config(); //Comment this out if it doesn't work for you cos of missing env file.
 const { connectToDB } = require("./config/database");
+const helmet = require("helmet");
 const express = require("express");
 const app = express();
 const http = require("http");
@@ -11,23 +12,21 @@ const cors = require("cors");
 const path = require("path");
 
 // Cors configuration
-const corsOptions = {
-  origin: [
-    "https://scam-educator-chatbot-production.up.railway.app/",
-    "http://localhost:3000",
-  ],
+// const corsOptions = {
+//   origin: [
+//     "https://scam-educator-chatbot-production.up.railway.app/",
+//     "http://localhost:3000",
+//   ],
 
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-// // To allow CORS
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
+// // // To allow CORS
 
-app.use(cors(corsOptions));
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // replace with your frontend domain
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.use(cors(corsOptions));
+
+app.use(helmet.cors());
+
 // Set app proxy
 // app.set("trust proxy", 1);
 
