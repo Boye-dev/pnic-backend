@@ -13,8 +13,8 @@ const path = require("path");
 // Cors configuration
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
-    "  https://scam-educator-chatbot-production.up.railway.app/",
+    // "http://localhost:3000",
+    "https://scam-educator-chatbot-production.up.railway.app/",
     // "https://westway-application.herokuapp.com"
     // "https://westway.world"
   ],
@@ -23,7 +23,10 @@ const corsOptions = {
 };
 // // To allow CORS
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // replace with your frontend domain
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://scam-educator-chatbot-production.up.railway.app/"
+  ); // replace with your frontend domain
   res.header("Access-Control-Allow-Credentials", true);
   next();
 });

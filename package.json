@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
-    "start:seedAdmin": "node seed.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client_frontend && npm run build --prefix client_frontend"
+    "start:seedAdmin": "node seed.js"
+  
   },
   "repository": {
     "type": "git",
