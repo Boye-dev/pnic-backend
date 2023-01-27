@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === "production") {
   //Set static folder
   app.use(
     express.static(
-      path.join(__dirname, "Predictive-Sales-Inventory-MS-master", "public")
+      path.join(__dirname, "Predictive-Sales-Inventory-MS-master", "build")
     )
   );
   app.get("*", (req, res) => {
@@ -71,7 +71,7 @@ if (process.env.NODE_ENV === "production") {
       path.join(
         __dirname,
         "Predictive-Sales-Inventory-MS-master",
-        "public",
+        "build",
         "index.html"
       )
     );
