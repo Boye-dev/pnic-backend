@@ -14,6 +14,7 @@ const path = require("path");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
+    "  https://scam-educator-chatbot-production.up.railway.app/",
     // "https://westway-application.herokuapp.com"
     // "https://westway.world"
   ],
@@ -56,7 +57,7 @@ app.use("/api", require("./controllers/product")); //For Products
 app.use("/api", require("./controllers/home"));
 app.use("/api", require("./controllers/sale"));
 // To show public files/Files from uploads folder  and to upload to cloudinary
-// app.use("/api/uploads", express.static("api/uploads"));
+app.use("/api/uploads", express.static("api/uploads"));
 
 // Serve static assets if in production
 // if (process.env.NODE_ENV === "production") {
