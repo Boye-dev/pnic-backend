@@ -22,15 +22,13 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 // // To allow CORS
+
+app.use(cors(corsOptions));
 app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://scam-educator-chatbot-production.up.railway.app/"
-  ); // replace with your frontend domain
+  res.header("Access-Control-Allow-Origin", "*"); // replace with your frontend domain
   res.header("Access-Control-Allow-Credentials", true);
   next();
 });
-app.use(cors(corsOptions));
 // Set app proxy
 // app.set("trust proxy", 1);
 
