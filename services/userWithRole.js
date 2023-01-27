@@ -182,12 +182,6 @@ const getAllUsers = async () => {
 
 /* Get the current url */
 //NB: NODE_ENV specifies the environment in which an application is running
-const getUrl = () => {
-  console.log(process.env.NODE_ENV);
-  return process.env.NODE_ENV === "production"
-    ? "https://westway-application.herokuapp.com" || "https://westway.world"
-    : "http://localhost:4000";
-};
 
 module.exports = {
   createUserWithRole,
@@ -197,7 +191,7 @@ module.exports = {
   getUserByEmail,
   updateUser,
   updateUserPassword,
-  getUrl,
+
   deleteUser,
   getAllUsers,
   deactivateUser,

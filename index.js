@@ -13,11 +13,10 @@ const path = require("path");
 // Cors configuration
 const corsOptions = {
   origin: [
-    // "http://localhost:3000",
     "https://scam-educator-chatbot-production.up.railway.app/",
-    // "https://westway-application.herokuapp.com"
-    // "https://westway.world"
+    "http://localhost:3000",
   ],
+
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
