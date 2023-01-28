@@ -140,6 +140,11 @@ const getRecordHistory = async (req, res, next) => {
           $gte: new Date(new Date().setDate(new Date().getDate() - 7)),
         };
         break;
+      case "monthly":
+        filter = {
+          $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+        };
+        break;
       case "yearly":
         filter = {
           $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),

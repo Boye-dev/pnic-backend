@@ -14,8 +14,8 @@ const path = require("path");
 // Cors configuration
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
-    "https://scam-educator-chatbot-production.up.railway.app/",
+    // "http://localhost:3000",
+    "https://pnic.up.railway.app",
   ],
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,

@@ -1,7 +1,7 @@
 {
   "name": "server_backend",
   "version": "1.0.0",
-  "description": "API for Westway Project",
+  "description": "API for PSIM Project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Great-NGO/westway-server.git"
+    "url": "git+https://github.com/Boye-dev/pnic-backend.git"
   },
   "author": "NGO-TECH",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Great-NGO/westway-server/issues"
+    "url": "https://github.com/Boye-dev/pnic-backend/issues"
   },
-  "homepage": "https://github.com/Great-NGO/westway-server#readme",
+  "homepage": "https://github.com/Boye-dev/pnic-backend",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "braintree": "^3.11.0",
@@ -34,6 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
     "multer": "^1.4.4",
+    "node-cron": "^3.0.2",
     "nodemailer": "^6.7.3",
     "nodemon": "^2.0.15",
     "react-csv": "^2.2.2",
