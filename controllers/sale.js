@@ -12,7 +12,7 @@ const { deleteProduct } = require("../services/product");
 const { getSaleById, getAllSales, deleteSale } = require("../services/sale");
 
 //get sale by id
-router.get("/sale/:id", isActive, async (req, res) => {
+router.get("/sale/:id", isAdminOrStockManager, isActive, async (req, res) => {
   const { id } = req.params;
   const sale = await getSaleById(id);
   console.log("The specific sale", sale);
@@ -28,7 +28,7 @@ router.get("/sale/:id", isActive, async (req, res) => {
 });
 
 //To get all sales
-router.get("/sales", isActive, async (req, res) => {
+router.get("/sales", isAdminOrStockManager, isActive, async (req, res) => {
   try {
     const sales = await getAllSales();
     console.log("All Sales", sales);

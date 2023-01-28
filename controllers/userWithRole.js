@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
+const cron = require("node-cron");
 // Auth Middleware
 const { authorize, isAdmin, isActive } = require("../middleware/auth");
 const {
@@ -24,6 +25,11 @@ const {
   forgotPasswordValidator,
   resetPasswordValidator,
 } = require("../services/validation");
+const Product = require("../models/product");
+const NotificationSchema = require("../models/NotificationSchema");
+const UserWithRole = require("../models/userWithRole");
+const Sale = require("../models/sale");
+const Purchase = require("../models/purchase");
 
 // To get an Admin specific details
 router.get("/user/:id", isAdmin, isActive, async (req, res) => {
@@ -157,6 +163,7 @@ router.post("/login", loginValidator, async (req, res) => {
 router.put(
   "/editProfile/:id",
   isAdmin,
+  isActive,
   updateUserValidator(),
   validate,
   async (req, res) => {
@@ -358,4 +365,183 @@ router.put(
   }
 );
 
+//checkstock
+router.get("/check-quantity", async (req, res) => {
+  const products = await Product.find(); // find all products
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].unit < 50) {
+      // create new notification
+      const notification = new NotificationSchema({
+        message: `Product ${products[i].name} has low quantity`,
+      });
+      await notification.save(); // save the notification
+    }
+  }
+  res.send("Checked product quantity");
+});
+
+cron.schedule("0 0 * * *", async () => {
+  // this runs every day
+  const products = await Product.find();
+  for (let i = 0; i < products.length; i++) {
+    console.log(products[i].unit);
+    if (products[i].unit < 50) {
+      const notification = new NotificationSchema({
+        message: `Product ${products[i].name} has low quantity`,
+      });
+      await notification.save();
+    }
+  }
+});
+router.get("/notifications", isAdmin, isActive, async (req, res) => {
+  const notifications = await NotificationSchema.find().sort({ date: -1 });
+  res.json(notifications);
+});
+
+router.get("/topusers", isAdmin, isActive, async (req, res) => {
+  try {
+    const sales = await Sale.aggregate([
+      {
+        $group: {
+          _id: "$user",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { count: -1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          user: "$_id",
+          count: 1,
+        },
+      },
+      {
+        $limit: 4,
+      },
+    ]);
+    res.json(sales);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post("/purchase", isAdmin, isActive, async (req, res) => {
+  try {
+    const { vendorName, products } = req.body;
+
+    let purchaseTotal = 0;
+    let purchaseProducts = [];
+
+    // Iterate through the products and validate them
+    for (let i = 0; i < products.length; i++) {
+      console.log(products[i].productId);
+      const product = await Product.findById(products[i].productId);
+      if (!product) {
+        return res.status(400).json({ message: "Invalid product ID" });
+      }
+
+      // Get the quantity and price from the products[i] object
+      const { quantity, price } = products[i];
+
+      // Calculate purchase total and create product for purchase
+      purchaseTotal += price;
+      purchaseProducts.push({
+        product: product._id,
+        quantity: quantity,
+        price: price,
+      });
+      console.log(purchaseProducts);
+      // Update product stock
+      // product.quantity -= quantity;
+      // await product.save();
+    }
+
+    // Create new purchase
+    const purchase = new Purchase({
+      vendorName,
+      products: products.map(({ productId, quantity, price }) => ({
+        productId,
+        quantity,
+        price,
+      })),
+      total: purchaseTotal,
+    });
+    await purchase.save();
+
+    res.json(purchase);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+router.get("/purchases", isAdmin, isActive, async (req, res) => {
+  try {
+    const purchases = await Purchase.find();
+    res.json(purchases);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+router.put("/purchase/:id/deliver", isAdmin, isActive, async (req, res) => {
+  try {
+    // Find the purchase by ID
+    const purchase = await Purchase.findById(req.params.id);
+    if (!purchase) {
+      return res.status(404).json({ message: "Purchase not found" });
+    }
+
+    // Update the purchase status to "Delivered"
+    purchase.status = "Delivered";
+    await purchase.save();
+
+    // Iterate through the products and update the quantity
+    for (let i = 0; i < purchase.products.length; i++) {
+      const product = await Product.findById(purchase.products[i].productId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      // Update the product quantity
+      product.unit += purchase.products[i].quantity;
+      await product.save();
+    }
+
+    res.json({ message: "Purchase delivered and product quantities updated" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+//Delete purchase
+router.delete("/purchase/:id", isAdmin, isActive, async (req, res) => {
+  try {
+    const purchase = await Purchase.findById(req.params.id);
+    if (!purchase) {
+      return res.status(404).json({ message: "Purchase not found" });
+    }
+    await purchase.remove();
+    res.json({ message: "Purchase deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/purchase/:id", isAdmin, isActive, async (req, res) => {
+  try {
+    // Get the purchase id from the url parameters
+    const purchaseId = req.params.id;
+
+    // Find the purchase by id
+    const purchase = await Purchase.findById(purchaseId);
+    if (!purchase) {
+      return res.status(404).json({ message: "Purchase not found" });
+    }
+
+    res.json(purchase);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 module.exports = router;
+//vendor,product,amount,quantity,status

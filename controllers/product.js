@@ -31,6 +31,7 @@ const {
   updateProductValidator,
   createProductValidator,
 } = require("../services/validation");
+const NotificationSchema = require("../models/NotificationSchema");
 
 /* Create new Product */
 //Multer upload method which helps parse our route as a multipart formdata and to upload multiple single images
@@ -337,6 +338,12 @@ router.post("/input-sale/:productId", isCashier, isActive, async (req, res) => {
     product[1].sales += Number(quantitySold);
     product[1].unit -= Number(quantitySold);
 
+    if (product[1].unit < 50) {
+      const notification = new NotificationSchema({
+        message: `Product ${product[1].name} has low quantity`,
+      });
+      await notification.save();
+    }
     await product[1].save();
 
     console.log(product[1]);
