@@ -29,7 +29,7 @@ const Product = require("../models/product");
 const NotificationSchema = require("../models/NotificationSchema");
 const UserWithRole = require("../models/userWithRole");
 const Sale = require("../models/sale");
-const Purchase = require("../models/purchase");
+const Purchase = require("../models/Purchase");
 
 // To get an Admin specific details
 router.get("/user/:id", isAdmin, isActive, async (req, res) => {
