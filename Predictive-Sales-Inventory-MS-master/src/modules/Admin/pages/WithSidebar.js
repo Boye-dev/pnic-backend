@@ -2,6 +2,7 @@ import { Container } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router";
 import NavBar from "../../../shared/NavBar";
+
 const WithSidebar = () => {
   return (
     <>
