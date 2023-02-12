@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/164.b249b7ef.chunk.js","mappings":"uIAMA,UAJgB,WACd,OAAO,yBAAK,uCACd,C","sources":["modules/StockMan/pages/Product.jsx"],"sourcesContent":["import React from \"react\";\r\n\r\nconst Product = () => {\r\n  return <div>This is Stock Managers Product Page</div>;\r\n};\r\n\r\nexport default Product;\r\n"],"names":[],"sourceRoot":""}
