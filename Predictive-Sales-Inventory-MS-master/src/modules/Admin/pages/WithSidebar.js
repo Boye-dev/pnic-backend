@@ -1,7 +1,8 @@
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router";
 import NavBar from "../../../shared/NavBar";
+import PersonalizedAppBar from "../../../shared/PersonalizedAppBar";
 
 const WithSidebar = () => {
   return (
@@ -10,13 +11,17 @@ const WithSidebar = () => {
       <Container
         sx={{
           width: "100%",
-          pt: 15,
+          // pt: 15,
           pl: { xs: 3, md: "212px" },
-          pr: { xs: 3, md: 2 },
+          // pr: { xs: 3, md: 2 },
+          position: "absolute",
         }}
         maxWidth="xl"
       >
-        <Outlet />
+        <PersonalizedAppBar />
+        <Box sx={{ paddingTop: 20 }}>
+          <Outlet />
+        </Box>
       </Container>
     </>
   );

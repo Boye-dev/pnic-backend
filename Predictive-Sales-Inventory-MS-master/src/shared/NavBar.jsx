@@ -15,7 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import Auth from "../modules/Auth/auth";
 
-const drawerWidth = 212;
+export const drawerWidth = 212;
 
 const NavBar = () => {
   const { getCurrentAdmin } = Auth;

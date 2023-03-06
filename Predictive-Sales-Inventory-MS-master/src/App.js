@@ -24,7 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<NavBar />} />
+        <Route exact path="/" element={<Signin />} />
         <Route exact path="/login" element={<Signin />} />
         <Route exact path="/admin/*" element={<AdminRouter />} />
         <Route exact path="/stock-manager/*" element={<StockManRouter />} />
