@@ -77,18 +77,17 @@ const MiniUserList = () => {
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
               {data?.map((element) => (
-                <Typography
-                  key={element.index}
-                  sx={{ fontSize: "15px", marginBottom: "12px" }}
-                >
-                  {element.name}
-                </Typography>
+                <React.Fragment key={element.index}>
+                  <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
+                    {element.name}
+                  </Typography>
+                </React.Fragment>
               ))}
             </Box>
             <hr />
             <Box>
               {data?.map((element) => (
-                <Box>
+                <Box key={Math.random()}>
                   <Chip
                     label={element.status}
                     size="small"

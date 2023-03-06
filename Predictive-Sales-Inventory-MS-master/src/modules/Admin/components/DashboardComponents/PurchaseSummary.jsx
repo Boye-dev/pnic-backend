@@ -78,7 +78,7 @@ const PurchaseSummary = () => {
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
               {productInfo?.map((element) => (
-                <React.Fragment key={element.id}>
+                <React.Fragment key={Math.random()}>
                   <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
                     {element.index}
                   </Typography>
@@ -89,7 +89,7 @@ const PurchaseSummary = () => {
 
             <Box>
               {productInfo?.map((element) => (
-                <React.Fragment key={element.id}>
+                <React.Fragment key={Math.random()}>
                   <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
                     {element.name}
                   </Typography>
@@ -100,7 +100,7 @@ const PurchaseSummary = () => {
 
             <Box>
               {productInfo?.map((element) => (
-                <React.Fragment key={element.id}>
+                <React.Fragment key={Math.random()}>
                   <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
                     {element.date}
                   </Typography>
@@ -110,7 +110,7 @@ const PurchaseSummary = () => {
             <hr />
             <Box>
               {productInfo?.map((element) => (
-                <React.Fragment key={element.id}>
+                <React.Fragment key={Math.random()}>
                   <Box>
                     <Chip
                       label={element.status}
@@ -135,7 +135,7 @@ const PurchaseSummary = () => {
             <hr />
             <Box>
               {productInfo?.map((element) => (
-                <React.Fragment key={element.id}>
+                <React.Fragment key={Math.random()}>
                   <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
                     {element.amount}
                   </Typography>
