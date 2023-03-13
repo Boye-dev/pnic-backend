@@ -1,7 +1,12 @@
 import React from "react";
+import { Typography } from "@mui/material";
 
 const Sales = () => {
-  return <div>This is Cashier Sales Page</div>;
+  return (
+    <div>
+      <Typography> This is Cashier Sales Page </Typography>{" "}
+    </div>
+  );
 };
 
 export default Sales;

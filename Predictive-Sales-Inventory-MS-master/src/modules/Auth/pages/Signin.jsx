@@ -11,7 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Auth from "../auth";
-import { AdminPaths } from "../../../routes/paths";
+import { AdminPaths, CashierPaths, StockManPaths } from "../../../routes/paths";
 
 const Signin = () => {
   const { setWithExpiry } = Auth;
@@ -49,7 +49,11 @@ const Signin = () => {
 
     if (response.ok) {
       setWithExpiry("user", data.user);
-      navigate(AdminPaths.DASHBOARD);
+      data.user.role === "Admin"
+        ? navigate(AdminPaths.DASHBOARD)
+        : data.user.role === "StockManager"
+        ? navigate(StockManPaths.DASHBOARD)
+        : navigate(CashierPaths.SALES);
     } else {
       // Handle error
     }

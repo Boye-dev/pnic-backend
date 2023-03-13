@@ -14,45 +14,60 @@ export const ADMIN_NAV_ITEMS = [
   },
   {
     name: "Users",
-    url: "",
+    url: AdminPaths.USERS,
     icon: (active) => <UserIcon />,
   },
   {
     name: "Product",
-    url: "",
+    url: AdminPaths.PRODUCTS,
     icon: (active) => <ProductIcon />,
   },
   {
     name: "Records",
-    url: "",
+    url: AdminPaths.RECORDS,
     icon: (active) => <RecordIcon />,
   },
   {
     name: "Settings",
-    url: "",
+    url: AdminPaths.SETTINGS,
     icon: (active) => <SettingsIcon />,
   },
 ];
 
 export const STOCK_MAN_NAV_ITEMS = [
   {
+    name: "Dashboard",
+    url: StockManPaths.DASHBOARD,
+    icon: (active) => <DashboardIcon />,
+  },
+  {
     name: "Produts",
-    url: StockManPaths.PRODUCT,
+    url: StockManPaths.PRODUCTS,
     icon: (active) => <ProductIcon />,
   },
   {
     name: "Records",
-    url: "",
+    url: StockManPaths.RECORD,
     icon: (active) => <RecordIcon />,
   },
   {
     name: "Settings",
-    url: "",
+    url: StockManPaths.SETTINGS,
     icon: (active) => <SettingsIcon />,
   },
 ];
 
 export const CASHIER_NAV_ITEMS = [
+  {
+    name: "Dashboard",
+    url: CashierPaths.DASHBOARD,
+    icon: (active) => <DashboardIcon />,
+  },
+  {
+    name: "Produts",
+    url: CashierPaths.PRODUCTS,
+    icon: (active) => <ProductIcon />,
+  },
   {
     name: "Sales",
     url: CashierPaths.SALES,

@@ -35,7 +35,7 @@ const budgetItems = [
   },
 ];
 
-const Product = () => {
+const Products = () => {
   const columns = [
     {
       header: "Product",
@@ -107,4 +107,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Products;
