@@ -7,44 +7,44 @@ import Table from "../../../shared/Table.tsx";
 const budgetItems = [
   {
     id: 1,
-    product: "Adejola",
-    amount: 2000,
+    name: "Adejola",
+    user_role: "Admin",
     status: "Active",
     date: "22/10/22",
   },
   {
     id: 1,
-    product: "Adejola",
-    amount: 2000,
+    name: "Adejola",
+    user_role: "Cashier",
     status: "Inactive",
     date: "22/10/22",
   },
   {
     id: 1,
-    product: "Adejola",
-    amount: 2000,
+    name: "Adejola",
+    user_role: "Admin",
     status: "Active",
     date: "22/10/22",
   },
   {
     id: 1,
-    product: "Adejola",
-    amount: 2000,
+    name: "Adejola",
+    user_role: "Admin",
     status: "Active",
     date: "22/10/22",
   },
 ];
 
-const Product = () => {
+const Users = () => {
   const columns = [
     {
-      header: "Product",
-      key: "product",
+      header: "User's Name",
+      key: "name",
       sort: true,
     },
     {
       header: "Role",
-      key: "amount",
+      key: "user_role",
     },
     {
       header: "Status",
@@ -60,11 +60,11 @@ const Product = () => {
     },
   ];
 
-  function creatData({ id, product, amount, status, date }) {
+  function creatData({ id, name, user_role, status, date }) {
     return {
       id,
-      product: product || "--",
-      amount: amount || "--",
+      name: name || "--",
+      user_role: user_role || "--",
       date: date || "--",
       status: (
         <Chip
@@ -86,18 +86,18 @@ const Product = () => {
   }
 
   const list = budgetItems?.map(
-    ({ id, product, amount, status, date }) =>
+    ({ id, name, user_role, status, date }) =>
       creatData({
         id,
-        product,
-        amount,
+        name,
+        user_role,
         status,
         date,
       }) || []
   );
   return (
     <>
-      <Typography component="h1">Product</Typography>
+      <Typography component="h1">Users</Typography>
       <Grid container>
         <Grid item xs={8}>
           <Table columns={columns} data={list} />
@@ -107,4 +107,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Users;

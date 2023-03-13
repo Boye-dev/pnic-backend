@@ -1,21 +1,22 @@
 import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-
-const paths = [
-  {
-    path: "sales",
-    element: lazy(() => import("./pages/Sales")),
-  },
-];
+import WithSidebar from "../Admin/pages/WithSidebar";
+import ProtectRoutes from "./ProtectedRoutes";
+import Sales from "./pages/Sales";
+import Product from "./pages/Product";
+import Dashboard from "./pages/Dashboard";
 
 const CashierRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="" element={<Navigate to="sales" replace />} />
-        {paths.map(({ path, element: Element }) => (
-          <Route key={path} path={path} element={<Element />} />
-        ))}
+        <Route element={<ProtectRoutes />}>
+          <Route element={<WithSidebar />}>
+            <Route path={"dashboard"} element={<Dashboard />} />
+            <Route path={"products"} element={<Product />} />
+            <Route path={"sales"} element={<Sales />} />
+          </Route>
+        </Route>
       </Routes>
     </>
   );

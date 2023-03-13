@@ -37,7 +37,7 @@ const NavBar = () => {
         <Toolbar />
         {/* <Divider /> */}
         <List>
-          {getCurrentAdmin().role === "Admin"
+          {getCurrentAdmin()?.role === "Admin"
             ? ADMIN_NAV_ITEMS.map((x) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton component={Link} to={x.url}>
@@ -46,7 +46,7 @@ const NavBar = () => {
                   </ListItemButton>
                 </ListItem>
               ))
-            : getCurrentAdmin().role === "StockManager"
+            : getCurrentAdmin()?.role === "StockManager"
             ? STOCK_MAN_NAV_ITEMS.map((x) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton component={Link} to={x.url}>
