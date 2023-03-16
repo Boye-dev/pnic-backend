@@ -7,7 +7,7 @@ const ProtectRoutes = () => {
 
   return (
     <>
-      {getCurrentAdmin().role === "Admin" ? (
+      {getCurrentAdmin()?.role === "Admin" ? (
         <Outlet />
       ) : (
         <Navigate to="/login" />

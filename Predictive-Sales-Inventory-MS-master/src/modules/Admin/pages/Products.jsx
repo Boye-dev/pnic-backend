@@ -1,8 +1,13 @@
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import Table from "../../../shared/Table.tsx";
+import { header } from "./Dashboard";
+import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
+import ProductBox from "../components/ProductsComponent/ProductBox";
 
 const budgetItems = [
   {
@@ -43,7 +48,7 @@ const Products = () => {
       sort: true,
     },
     {
-      header: "Role",
+      header: "Amount",
       key: "amount",
     },
     {
@@ -53,7 +58,7 @@ const Products = () => {
       // align: "right",
     },
     {
-      header: "Starting Date",
+      header: "Date",
       key: "date",
       sort: true,
       align: "left",
@@ -75,10 +80,11 @@ const Products = () => {
             backgroundColor:
               status?.toLowerCase() === "active"
                 ? "#00BB8A"
-                : status?.toLowerCase() === "completed"
+                : status?.toLowerCase() === "inactive"
                 ? "#BB2D00"
                 : "#FFD4D2",
             color: "white",
+            width: "60px",
           }}
         />
       ),
@@ -97,12 +103,54 @@ const Products = () => {
   );
   return (
     <>
-      <Typography component="h1">Product</Typography>
-      <Grid container>
-        <Grid item xs={8}>
-          <Table columns={columns} data={list} />
+      <Box marginX="20px">
+        <Typography sx={header}>Product</Typography>
+        <Grid container spacing={6}>
+          <Grid item xs={9}>
+            <Box
+              sx={{
+                border: "1px solid #FF7F11",
+                borderRadius: "15px",
+                padding: "10px",
+              }}
+            >
+              <Table columns={columns} data={list} />
+            </Box>
+          </Grid>
+          <Grid item xs={3}>
+            <Box display="flex" justifyContent="flex-end">
+              <Button variant="contained">
+                <EditIcon />
+              </Button>
+            </Box>
+            <Box
+              mt={4}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "16px",
+                  color: "#00BB8A",
+                  fontWeight: "bold",
+                }}
+              >
+                Top Products
+              </Typography>
+              <Typography fontSize="14px" textAlign="center">
+                Products with the highest sales
+              </Typography>
+              <ProductBox productname={"Potato Chips"} />
+              <ProductBox productname={"Pin pop"} />
+              <ProductBox productname={"Fresh Yo"} />
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };

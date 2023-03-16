@@ -10,14 +10,14 @@ const WithSidebar = () => {
       <NavBar />
       <Container
         sx={{
-          width: "100%",
-          pl: { xs: 3, md: "212px" },
+          width: `calc(100 % -212)`,
+          pl: { xs: 3, md: "212px", sm: "212px" },
           position: "absolute",
         }}
         maxWidth="xl"
       >
         <PersonalizedAppBar />
-        <Box sx={{ paddingTop: 15, position: "relative" }}>
+        <Box sx={{ paddingTop: 10, position: "relative" }}>
           <Outlet />
         </Box>
       </Container>
