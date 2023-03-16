@@ -16,7 +16,7 @@ const budgetItems = [
     date: "22/10/22",
   },
   {
-    id: 1,
+    id: 2,
     product: "Adejola",
     quantity_before: "Cashier",
     quantity_after: "Inactive",
@@ -24,7 +24,7 @@ const budgetItems = [
     date: "22/10/22",
   },
   {
-    id: 1,
+    id: 3,
     product: "Adejola",
     quantity_before: "Admin",
     quantity_after: "Active",
@@ -32,7 +32,7 @@ const budgetItems = [
     date: "22/10/22",
   },
   {
-    id: 1,
+    id: 4,
     product: "Adejola",
     quantity_before: "Admin",
     quantity_after: "Active",
@@ -43,7 +43,7 @@ const budgetItems = [
 
 const budgetItem = [
   {
-    id: 1,
+    id: 5,
     product: "Adejola",
     vendor: "Admin",
     status: "Active",
@@ -51,7 +51,7 @@ const budgetItem = [
     date: "22/10/22",
   },
   {
-    id: 1,
+    id: 6,
     product: "Adejola",
     vendor: "Cashier",
     status: "Pending",
@@ -59,7 +59,7 @@ const budgetItem = [
     date: "22/10/22",
   },
   {
-    id: 1,
+    id: 7,
     product: "Adejola",
     vendor: "Admin",
     status: "Active",
@@ -67,7 +67,7 @@ const budgetItem = [
     date: "22/10/22",
   },
   {
-    id: 1,
+    id: 8,
     product: "Adejola",
     vendor: "Admin",
     status: "Active",

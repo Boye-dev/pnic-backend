@@ -302,7 +302,6 @@ const stringAvatar = (name) => {
 const PersonalizedAppBar = () => {
   const theme = useTheme();
   const { getCurrentUser } = Auth;
-  console.log(getCurrentUser());
 
   const mobile =
     useMediaQuery(theme.breakpoints.down("sm")) && !drawerConfig?.isMobile;
