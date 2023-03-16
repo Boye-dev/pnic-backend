@@ -1,7 +1,7 @@
 import { ReactComponent as LogoutOn } from "../assets/svgs/logout.svg";
 import { ReactComponent as DashboardIcon } from "../assets/svgs/homeWhite.svg";
 import { ReactComponent as UserIcon } from "../assets/svgs/user.svg";
-import { ReactComponent as ProductIcon } from "../assets/svgs/product.svg";
+import { ReactComponent as ProductIcon } from "../assets/svgs/productIcon.svg";
 import { ReactComponent as RecordIcon } from "../assets/svgs/records.svg";
 import { ReactComponent as SettingsIcon } from "../assets/svgs/settings.svg";
 import { AdminPaths, StockManPaths, CashierPaths } from "../routes/paths";

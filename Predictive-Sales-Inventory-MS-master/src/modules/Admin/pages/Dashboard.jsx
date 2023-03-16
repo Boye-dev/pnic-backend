@@ -10,11 +10,19 @@ import greenPerson from "../../../assets/svgs/greenPerson.svg";
 import brownPerson from "../../../assets/svgs/brownPerson.svg";
 import sales from "../../../assets/svgs/sales.svg";
 import invoice from "../../../assets/svgs/invoice.svg";
+import { Typography } from "@mui/material";
+
+export const header = {
+  color: "#2364AA",
+  fontSize: "32px",
+  fontWeight: "bold",
+};
 
 const Dashboard = () => {
   return (
     <div>
-      <Box marginX="57px" marginBottom="5px">
+      <Box marginX="20px" marginBottom="5px">
+        <Typography sx={header}>Dashboard</Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={4}>
             <ProfileBox

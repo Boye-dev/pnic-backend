@@ -7,7 +7,7 @@ const ProtectRoutes = () => {
 
   return (
     <>
-      {getCurrentAdmin().role === "StockManager" ? (
+      {getCurrentAdmin()?.role === "StockManager" ? (
         <Outlet />
       ) : (
         <Navigate to="/login" />

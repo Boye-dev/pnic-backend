@@ -14,6 +14,7 @@ import {
   CircularProgress,
   Checkbox,
   Typography,
+  tableCellClasses,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { ArrowDownward } from "@mui/icons-material";
@@ -73,7 +74,14 @@ const Table = ({
   return (
     <Grid container>
       <Grid item xs={12}>
-        <TableContainer component={Paper} elevation={0} square sx={{ ...sx }}>
+        <TableContainer
+          component={Paper}
+          elevation={0}
+          square
+          sx={{
+            ...sx,
+          }}
+        >
           <MUITable stickyHeader sx={{ minWidth: 700 }} size={size}>
             <TableHead style={{}}>
               <TableRow>
@@ -117,7 +125,11 @@ const Table = ({
                             IconComponent={
                               isAssendeing ? ArrowUpwardIcon : ArrowDownward
                             }
-                            style={{ fontWeight: "bold", color: "black" }}
+                            style={{
+                              fontWeight: "medium",
+                              color: "#A9A9A9",
+                              fontSize: "16px",
+                            }}
                           >
                             {header}
                           </TableSortLabel>
@@ -125,8 +137,9 @@ const Table = ({
                       ) : (
                         <TableCell
                           sx={{
-                            fontWeight: "bold",
-                            color: "black",
+                            fontWeight: "medium",
+                            color: "#A9A9A9",
+                            fontSize: "16px",
                             backgroundColor: (theme) =>
                               theme.palette.common.white,
                           }}
@@ -169,13 +182,17 @@ const Table = ({
                           sx={{
                             ...rowStyle,
                             cursor: "pointer",
-
-                            background: row?.disabled ? "#F0F5FF" : "",
+                            background: row?.disabled ? "#F0F5FF" : "#F5F5F5",
                             "&.Mui-selected": {
                               background: getTableRowColor(row),
                               "&:hover": {
                                 background: getTableRowColor(row),
                               },
+                            },
+                            [`& .${tableCellClasses.root}`]: {
+                              borderBottom: "none",
+                              border: "5px solid white",
+                              padding: "15px",
                             },
                           }}
                         >

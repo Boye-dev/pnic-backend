@@ -218,16 +218,16 @@
 
 // export default PersonalizedAppBar;
 
-import { Box, useMediaQuery, Typography } from "@mui/material";
+import { Box, useMediaQuery, Typography, Avatar } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import { ReactComponent as NotificationsIcon } from "../assets/svgs/notification.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import { drawerWidth } from "./NavBar";
+import Auth from "../modules/Auth/auth";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -290,8 +290,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const stringAvatar = (name) => {
+  return {
+    sx: {
+      // bgcolor: stringToColor(name),
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
+};
+
 const PersonalizedAppBar = () => {
   const theme = useTheme();
+  const { getCurrentUser } = Auth;
+
   const mobile =
     useMediaQuery(theme.breakpoints.down("sm")) && !drawerConfig?.isMobile;
 
@@ -308,7 +319,13 @@ const PersonalizedAppBar = () => {
               width: "100%",
             }}
           >
-            <Box border="1px solid red" width="70%" height="100%">
+            <Box
+              border="1px solid #009DDC"
+              borderRadius="15px"
+              width="70%"
+              height="100%"
+              paddingY="8px"
+            >
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
@@ -319,11 +336,30 @@ const PersonalizedAppBar = () => {
                 />
               </Search>
             </Box>
-            <Box border="1px solid blue" width="64px">
+            <Box
+              border="1px solid #009DDC"
+              borderRadius="10px"
+              paddingY="10px"
+              paddingX="15px"
+              width="fit-content"
+            >
               <NotificationsIcon />
             </Box>
-            <Box border="1px solid blue" width="208px">
-              <AccountCircle />
+            <Box
+              sx={{
+                display: "flex",
+                border: "1px solid #009DDC",
+                borderRadius: "10px",
+                padding: "6px",
+                width: "208px",
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
+            >
+              <Avatar {...stringAvatar(getCurrentUser()?.username)} />
+              <Typography sx={{ fontSize: "18px", color: "#E55934" }}>
+                {getCurrentUser()?.username}
+              </Typography>
             </Box>
           </Box>
         </Toolbar>
