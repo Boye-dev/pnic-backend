@@ -14,28 +14,28 @@ const budgetItems = [
     id: 1,
     product: "Adejola",
     amount: 2000,
-    status: "Active",
+    status: "In stock",
     date: "22/10/22",
   },
   {
     id: 2,
     product: "Adejola",
     amount: 2000,
-    status: "Inactive",
+    status: "Sold Out",
     date: "22/10/22",
   },
   {
     id: 3,
     product: "Adejola",
     amount: 2000,
-    status: "Active",
+    status: "Running out",
     date: "22/10/22",
   },
   {
     id: 4,
     product: "Adejola",
     amount: 2000,
-    status: "Active",
+    status: "In stock",
     date: "22/10/22",
   },
 ];
@@ -73,16 +73,22 @@ const Products = () => {
       date: date || "--",
       status: (
         <Chip
-          label={status?.toLowerCase() === "active" ? "Active" : "Inactive"}
+          label={
+            status?.toLowerCase() === "in stock"
+              ? "In stock"
+              : status?.toLowerCase() === "sold out"
+              ? "Sold Out"
+              : "Running Out"
+          }
           size="small"
           sx={{
             borderRadius: 1,
             backgroundColor:
-              status?.toLowerCase() === "active"
+              status?.toLowerCase() === "in stock"
                 ? "#00BB8A"
-                : status?.toLowerCase() === "inactive"
+                : status?.toLowerCase() === "sold out"
                 ? "#BB2D00"
-                : "#FFD4D2",
+                : "#FF7F11",
             color: "white",
             width: "60px",
           }}
@@ -104,7 +110,7 @@ const Products = () => {
   return (
     <>
       <Box marginX="20px">
-        <Typography sx={header}>Product</Typography>
+        <Typography sx={header}>Products</Typography>
         <Grid container spacing={6}>
           <Grid item xs={9}>
             <Box

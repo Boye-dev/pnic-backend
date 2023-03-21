@@ -3,7 +3,16 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import { ReactComponent as BluePerson } from "../../../assets/svgs/bluePerson.svg";
 
-const ProfileBox = ({ number, userType, icon, onClick, bgColor, bgColor2 }) => {
+const ProfileBox = ({
+  number,
+  userType,
+  icon,
+  onClick,
+  bgColor,
+  bgColor2,
+  product,
+  productType,
+}) => {
   return (
     <div>
       <Box
@@ -38,10 +47,21 @@ const ProfileBox = ({ number, userType, icon, onClick, bgColor, bgColor2 }) => {
             </Typography>
           </Box>
           <Box marginLeft="-10px">
-            <Typography>{userType}</Typography>
-            <Typography fontSize="26px" marginTop="-10px">
-              users
-            </Typography>
+            {product ? (
+              <Box>
+                <Typography fontSize="26px" marginTop="-10px">
+                  Products
+                </Typography>
+                <Typography>{productType}</Typography>
+              </Box>
+            ) : (
+              <Box>
+                <Typography>{userType}</Typography>
+                <Typography fontSize="26px" marginTop="-10px">
+                  users
+                </Typography>
+              </Box>
+            )}
           </Box>
           <Box>
             <img src={icon} alt="logo" />

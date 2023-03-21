@@ -3,11 +3,15 @@ import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Table from "../../../shared/Table.tsx";
 import { header } from "./Dashboard";
 import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
 import TopUser from "../components/UsersComponent/TopUser";
+import Drawer from "../../../shared/Drawer";
+import Auth from "../../Auth/auth";
+import AddUser from "../components/UsersComponent/AddUser";
 
 const budgetItems = [
   {
@@ -40,7 +44,26 @@ const budgetItems = [
   },
 ];
 
+const url = "http://localhost:4000/api/";
+
 const Users = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [users, setUsers] = useState([]);
+  const { getCurrentUser } = Auth;
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/users").then((response) => {
+      setUsers = response.data;
+    });
+  }, []);
+
+  console.log(users);
+  console.log(getCurrentUser());
+
+  // const addUser = () => {
+
+  // }
+
   const columns = [
     {
       header: "User's Name",
@@ -119,7 +142,7 @@ const Users = () => {
           </Grid>
           <Grid item xs={3}>
             <Box display="flex" justifyContent="flex-end">
-              <Button variant="contained">
+              <Button variant="contained" onClick={() => setIsOpen(true)}>
                 <EditIcon />
               </Button>
             </Box>
@@ -151,6 +174,15 @@ const Users = () => {
           </Grid>
         </Grid>
       </Box>
+      <Drawer
+        open={isOpen}
+        onClose={() => setIsOpen(!isOpen)}
+        title="Add users"
+        onOk
+        okText="ADD"
+      >
+        <AddUser />
+      </Drawer>
     </>
   );
 };

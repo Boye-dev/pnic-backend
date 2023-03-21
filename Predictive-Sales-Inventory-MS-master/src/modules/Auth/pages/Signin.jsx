@@ -46,12 +46,13 @@ const Signin = () => {
     });
 
     const data = await response.json();
+    console.log(data);
 
     if (response.ok) {
       setWithExpiry("user", data.user);
       data.user.role === "Admin"
         ? navigate(AdminPaths.DASHBOARD)
-        : data.user.role === "StockManager"
+        : data.user.role === "Stock Manager"
         ? navigate(StockManPaths.DASHBOARD)
         : navigate(CashierPaths.SALES);
     } else {
