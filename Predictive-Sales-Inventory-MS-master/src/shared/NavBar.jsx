@@ -106,10 +106,15 @@ const NavBar = () => {
                   </ListItemButton>
                 </ListItem>
               ))
-            : getCurrentAdmin()?.role === "StockManager"
-            ? STOCK_MAN_NAV_ITEMS.map((x) => (
+            : getCurrentAdmin()?.role === "Stock Manager"
+            ? STOCK_MAN_NAV_ITEMS.map((x, index) => (
                 <ListItem key={x.name} disablePadding>
-                  <ListItemButton component={Link} to={x.url}>
+                  <ListItemButton
+                    sx={{ marginY: "10px", ...getButtonStyle(index) }}
+                    component={Link}
+                    to={x.url}
+                    onClick={() => handleItemClick(index)}
+                  >
                     <ListItemIcon>{x.icon()}</ListItemIcon>
                     <ListItemText
                       primary={x.name}
@@ -117,14 +122,20 @@ const NavBar = () => {
                         fontSize: "14px",
                         fontWeight: "medium",
                         letterSpacing: 0,
+                        ...getTextStyle(index),
                       }}
                     />
                   </ListItemButton>
                 </ListItem>
               ))
-            : CASHIER_NAV_ITEMS.map((x) => (
+            : CASHIER_NAV_ITEMS.map((x, index) => (
                 <ListItem key={x.name} disablePadding>
-                  <ListItemButton component={Link} to={x.url}>
+                  <ListItemButton
+                    sx={{ marginY: "10px", ...getButtonStyle(index) }}
+                    component={Link}
+                    to={x.url}
+                    onClick={() => handleItemClick(index)}
+                  >
                     <ListItemIcon>{x.icon()}</ListItemIcon>
                     <ListItemText
                       primary={x.name}
@@ -132,6 +143,7 @@ const NavBar = () => {
                         fontSize: "14px",
                         fontWeight: "medium",
                         letterSpacing: 0,
+                        ...getTextStyle(index),
                       }}
                     />
                   </ListItemButton>
