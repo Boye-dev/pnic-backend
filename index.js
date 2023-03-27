@@ -14,7 +14,7 @@ const path = require("path");
 // Cors configuration
 const corsOptions = {
   origin: [
-    // "http://localhost:3001",
+    // "http://localhost:3000",
     "https://pnic-backend-production.up.railway.app",
   ],
   credentials: true, //access-control-allow-credentials:true
