@@ -1,17 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Auth from "../auth";
 import { AdminPaths, CashierPaths, StockManPaths } from "../../../routes/paths";
+import api from "../../../api/api.js";
+import PSIMSLogo from "../../../assets/images/PSIMSLogo.png";
 
 const Signin = () => {
   const { setWithExpiry } = Auth;
@@ -19,6 +22,7 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = yup.object().shape({
     email: yup.string().email().required(),
@@ -37,25 +41,23 @@ const Signin = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (e) => {
-    const response = await fetch("http://localhost:4000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    });
+  const onSubmit = async () => {
+    try {
+      const response = await api.post("/api/login", { email, password });
 
-    const data = await response.json();
-    console.log(data);
-
-    if (response.ok) {
-      setWithExpiry("user", data.user);
-      data.user.role === "Admin"
-        ? navigate(AdminPaths.DASHBOARD)
-        : data.user.role === "Stock Manager"
-        ? navigate(StockManPaths.DASHBOARD)
-        : navigate(CashierPaths.SALES);
-    } else {
+      // If the response is OK, redirect to the appropriate dashboard based on user role
+      if (response.status === 200) {
+        const { data } = response;
+        setWithExpiry("user", data.user);
+        if (data.user.role === "Admin") {
+          navigate(AdminPaths.DASHBOARD);
+        } else if (data.user.role === "Stock Manager") {
+          navigate(StockManPaths.DASHBOARD);
+        } else {
+          navigate(CashierPaths.SALES);
+        }
+      }
+    } catch (error) {
       // Handle error
     }
   };
@@ -68,7 +70,25 @@ const Signin = () => {
           height: "251px",
           backgroundColor: "#0D81FF",
         }}
-      ></Box>
+      >
+        <Box
+          display="flex"
+          margin={5}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box display="flex" alignItems="center">
+            <img src={PSIMSLogo} width="5%" />
+            <Typography sx={{ color: "orange", fontWeight: "900" }}>
+              SCAR MALL
+            </Typography>
+          </Box>
+
+          <Typography sx={{ color: "white" }}>
+            By signing in you agree with Terms of Service
+          </Typography>
+        </Box>
+      </Box>
       <Box marginX="30%">
         <form>
           <Box
@@ -94,7 +114,9 @@ const Signin = () => {
                     fullWidth
                     {...fields}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
                     inputRef={ref}
                     error={Boolean(error?.message)}
                     helperText={error?.message}
@@ -118,7 +140,9 @@ const Signin = () => {
                     error={Boolean(error?.message)}
                     helperText={error?.message}
                     value={password}
-                    onChange={(e) => setPass(e.target.value)}
+                    onChange={(e) => {
+                      setPass(e.target.value);
+                    }}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -150,18 +174,19 @@ const Signin = () => {
               onClick={(e) => {
                 e.preventDefault();
                 handleSubmit(onSubmit());
+                setIsLoading(true);
               }}
-              // disabled={isLoading}
-              // startIcon={
-              //   isLoading && (
-              //     <CircularProgress
-              //       size={16}
-              //       sx={{
-              //         fontSize: 1,
-              //       }}
-              //     />
-              //   )
-              // }
+              disabled={isLoading}
+              startIcon={
+                isLoading && (
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      fontSize: 1,
+                    }}
+                  />
+                )
+              }
             >
               Sign In
             </Button>
