@@ -16,6 +16,7 @@ import api from "../../../api/api";
 const Users = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
+  const [topUsers, setTopUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const Users = () => {
       const data = response.data.users;
       setLoading(false);
       setUsers(data);
+      setTopUsers(data.slice(0, 3));
     });
   }, []);
 
@@ -43,23 +45,20 @@ const Users = () => {
     {
       header: "Status",
       key: "status",
-      sort: true,
       align: "center",
     },
     {
-      header: "Starting Date",
-      key: "date",
-      sort: true,
-      align: "left",
+      header: "Action",
+      key: "action",
+      align: "center",
     },
   ];
 
-  function creatData({ id, username, role, status, date }) {
+  function creatData({ id, username, role, status, action }) {
     return {
       id,
       username: username || "--",
       role: role || "--",
-      date: date || "--",
       status: (
         <Chip
           label={status?.toLowerCase() === "active" ? "Active" : "Inactive"}
@@ -77,17 +76,27 @@ const Users = () => {
           }}
         />
       ),
+      action:
+        status?.toLowerCase() === "active" ? (
+          <Button variant="outlined" color="warning">
+            Deactivate
+          </Button>
+        ) : (
+          <Button variant="outlined" color="warning">
+            Activate
+          </Button>
+        ),
     };
   }
 
   const list = users?.map(
-    ({ id, username, role, status, date }) =>
+    ({ id, username, role, status, action }) =>
       creatData({
         id,
         username,
         role,
         status,
-        date,
+        action,
       }) || []
   );
   return (
@@ -143,15 +152,9 @@ const Users = () => {
                   >
                     Top Users
                   </Typography>
-                  <TopUser
-                    username={"Adejolaoluwa Aladegbongbe"}
-                    role={"Admin"}
-                  />
-                  <TopUser
-                    username={"Olageshin OluwaShomi"}
-                    role={"Stock Manager"}
-                  />{" "}
-                  <TopUser username={"Oreoluwa"} role={"Cashier"} />
+                  {topUsers.map((topUser) => (
+                    <TopUser username={topUser.username} role={topUser.role} />
+                  ))}
                 </Box>
               </Grid>
             </Grid>

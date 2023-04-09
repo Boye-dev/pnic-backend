@@ -54,7 +54,6 @@ const AddUser = ({ open, close }) => {
       const response = await api.post("/api/signup", payload);
       console.log(response);
       if (response.status === 200) {
-        console.log("done");
         close;
       } else {
         console.log("not done");
