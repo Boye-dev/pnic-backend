@@ -23,39 +23,48 @@ const Dashboard = () => {
     <div>
       <Box marginX="20px" marginBottom="5px">
         <Typography sx={header}>Dashboard</Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={4}>
-            <ProfileBox
-              number="10"
-              bgColor="#009DDC"
-              bgColor2="#0086BB"
-              userType="Total"
+        <Grid container spacing={2} mb={2}>
+          <Grid item xs={12} sm={6} md={3}>
+            <NumericDetails
+              num="112"
               icon={bluePerson}
+              iconBgColor="#FFFFFF"
+              countType="Total Users"
+              bgColor="#2364AA"
+              textColor="#FFFFFF"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <ProfileBox
-              number="8"
-              bgColor="#009B72"
-              bgColor2="#00BB8A"
-              userType="Active"
+          <Grid item xs={12} sm={6} md={3}>
+            <NumericDetails
+              num="112"
               icon={greenPerson}
+              iconBgColor="#FFFFFF"
+              countType="Total Active Users"
+              bColor="#00BB8A"
+              bgColor="#00BB8A"
+              textColor="#FFFFFF"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <ProfileBox
-              number="2"
-              bgColor="#56351E"
-              bgColor2="#885532"
-              userType="Active"
-              icon={brownPerson}
+          <Grid item xs={12} sm={6} md={3}>
+            <NumericDetails
+              num="112"
+              icon={invoice}
+              iconBgColor="#2364AA"
+              countType="Total Invoices"
+              bColor="blue"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <NumericDetails
+              num="546"
+              icon={sales}
+              iconBgColor="#56351E"
+              countType="Total Sales"
+              bColor="#56351E"
             />
           </Grid>
         </Grid>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={4}>
-            <MiniUserList />
-          </Grid>
           <Grid item md={8} container direction="column" spacing={2}>
             <Grid item container spacing={2}>
               <Grid item xs={12} sm={12} md={6}>
@@ -80,6 +89,9 @@ const Dashboard = () => {
             <Grid item>
               <PurchaseSummary />
             </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <MiniUserList />
           </Grid>
         </Grid>
       </Box>

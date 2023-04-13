@@ -12,6 +12,7 @@ import TopUser from "../components/UsersComponent/TopUser";
 import Drawer from "../../../shared/Drawer";
 import AddUser from "../components/UsersComponent/AddUser";
 import api from "../../../api/api";
+import EmptyState from "../../../shared/EmptyState";
 
 const Users = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -125,7 +126,25 @@ const Users = () => {
                     padding: "10px",
                   }}
                 >
-                  <Table isLoading columns={columns} data={list} />
+                  <Table
+                    isLoading
+                    columns={columns}
+                    data={list}
+                    empty={
+                      <>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "10%",
+                            textAlign: "center",
+                          }}
+                        >
+                          <EmptyState emptyText="No Record Available" />
+                        </Box>
+                      </>
+                    }
+                  />
                 </Box>
               </Grid>
               <Grid item xs={3}>
