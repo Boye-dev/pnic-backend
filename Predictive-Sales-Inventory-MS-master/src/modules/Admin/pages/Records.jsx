@@ -2,82 +2,27 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../../shared/Table.tsx";
 import { header } from "./Dashboard";
-
-const budgetItems = [
-  {
-    id: 1,
-    product: "Adejola",
-    quantity_before: "Admin",
-    quantity_after: "Active",
-    amount_paid: 5000,
-    date: "22/10/22",
-  },
-  {
-    id: 2,
-    product: "Adejola",
-    quantity_before: "Cashier",
-    quantity_after: "Inactive",
-    amount_paid: 5000,
-    date: "22/10/22",
-  },
-  {
-    id: 3,
-    product: "Adejola",
-    quantity_before: "Admin",
-    quantity_after: "Active",
-    amount_paid: 5000,
-    date: "22/10/22",
-  },
-  {
-    id: 4,
-    product: "Adejola",
-    quantity_before: "Admin",
-    quantity_after: "Active",
-    amount_paid: 5000,
-    date: "22/10/22",
-  },
-];
-
-const budgetItem = [
-  {
-    id: 5,
-    product: "Adejola",
-    vendor: "Admin",
-    status: "Active",
-    amount: 5000,
-    date: "22/10/22",
-  },
-  {
-    id: 6,
-    product: "Adejola",
-    vendor: "Cashier",
-    status: "Pending",
-    amount: 5000,
-    date: "22/10/22",
-  },
-  {
-    id: 7,
-    product: "Adejola",
-    vendor: "Admin",
-    status: "Active",
-    amount: 5000,
-    date: "22/10/22",
-  },
-  {
-    id: 8,
-    product: "Adejola",
-    vendor: "Admin",
-    status: "Active",
-    amount: 5000,
-    date: "22/10/22",
-  },
-];
+import TogglePage from "../../../shared/TogglePage";
+import api from "../../../api/api";
+import { formatCurrency } from "../../../shared/Categpries";
+import { format } from "date-fns";
+import EmptyState from "../../../shared/EmptyState";
 
 const Records = () => {
-  const columns = [
+  const pages = ["Sales", "Purchases"];
+  const [activeTab, setActiveTab] = useState(0);
+  const [sale, setSale] = useState([]);
+  const [purchase, setPurchase] = useState([]);
+
+  useEffect(() => {
+    getSales();
+    getPurchases();
+  }, []);
+
+  const Sales = [
     {
       header: "Products",
       key: "product",
@@ -106,7 +51,7 @@ const Records = () => {
     },
   ];
 
-  const columns2 = [
+  const Purchases = [
     {
       header: "Product ID",
       key: "product",
@@ -114,7 +59,7 @@ const Records = () => {
     },
     {
       header: "Vendor",
-      key: "vendor",
+      key: "vendorName",
     },
     {
       header: "Status",
@@ -124,7 +69,7 @@ const Records = () => {
     },
     {
       header: "Amount",
-      key: "amount",
+      key: "total",
       sort: true,
       align: "left",
     },
@@ -135,7 +80,41 @@ const Records = () => {
     },
   ];
 
-  function creatData({
+  function getPage(activeTab) {
+    let result = Sales;
+    switch (activeTab) {
+      case 0:
+        result = Sales;
+        return result;
+      case 1:
+        result = Purchases;
+        return result;
+      default:
+        result = Sales;
+        return result;
+    }
+  }
+
+  const columns = getPage(activeTab);
+
+  const getSales = () => {
+    api.get("/api/sales").then((response) => {
+      const salesData = response.data.sales;
+      // setLoading(false);
+      setSale(salesData);
+    });
+  };
+
+  const getPurchases = () => {
+    api.get("/api/purchases").then((response) => {
+      console.log(response);
+      const purchaseData = response.data;
+      // setLoading(false);
+      setPurchase(purchaseData);
+    });
+  };
+
+  function salesData({
     id,
     product,
     quantity_before,
@@ -153,11 +132,11 @@ const Records = () => {
     };
   }
 
-  function anotherData({ id, product, vendor, status, amount, date }) {
+  function purchaseData({ id, product, vendorName, status, total, date }) {
     return {
       id,
       product: product || "--",
-      vendor: vendor || "--",
+      vendorName: vendorName || "--",
       status: (
         <Chip
           label={status?.toLowerCase() === "active" ? "Active" : "Pending"}
@@ -175,14 +154,14 @@ const Records = () => {
           }}
         />
       ),
-      amount: amount || "==",
-      date: date || "--",
+      total: formatCurrency(total) || "--",
+      date: format(new Date(date), "yyyy-MM-dd") || "--",
     };
   }
 
-  const list = budgetItems?.map(
+  const sales = sale?.map(
     ({ id, product, quantity_before, quantity_after, amount_paid, date }) =>
-      creatData({
+      salesData({
         id,
         product,
         quantity_before,
@@ -192,22 +171,51 @@ const Records = () => {
       }) || []
   );
 
-  const lineUp = budgetItem?.map(
-    ({ id, product, vendor, status, amount, date }) =>
-      anotherData({
+  const purchases = purchase?.map(
+    ({ id, product, vendorName, status, total, date }) =>
+      purchaseData({
         id,
         product,
-        vendor,
+        vendorName,
         status,
-        amount,
+        total,
         date,
       }) || []
   );
 
+  const list = activeTab === 0 ? sales : activeTab === 1 && purchases;
+
   return (
     <>
       <Box marginX="20px" mb={4}>
-        <Typography sx={header}>Records</Typography>
+        <Box display="flex">
+          <Typography sx={header} mr={2}>
+            Records
+          </Typography>
+
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              backgroundColor: " #0D81FF1A",
+              width: "180px",
+              borderRadius: "8px",
+              height: "28px",
+              paddingY: "8px",
+            }}
+            mb={4}
+          >
+            {pages.map((page, index) => (
+              <TogglePage
+                handleClick={(event) => setActiveTab(index)}
+                name={page}
+                index={index}
+                activeTab={activeTab}
+              />
+            ))}
+          </Box>
+        </Box>
         <Grid container>
           <Grid
             item
@@ -218,13 +226,25 @@ const Records = () => {
               padding: "10px",
             }}
           >
-            Sales
-            <Table columns={columns} data={list} />
-            Purchases
-            <Table columns={columns2} data={lineUp} />
+            {activeTab === 0 && <Table columns={columns} data={list} />}
+            {activeTab === 1 && <Table columns={columns} data={list} />}
           </Grid>
         </Grid>
       </Box>
+      {(list === undefined || list?.length === 0) && (
+        <>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "10%",
+              textAlign: "center",
+            }}
+          >
+            <EmptyState emptyText="No Record Available" />
+          </Box>
+        </>
+      )}
     </>
   );
 };

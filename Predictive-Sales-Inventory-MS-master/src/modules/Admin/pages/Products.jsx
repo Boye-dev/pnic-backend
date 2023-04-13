@@ -12,6 +12,7 @@ import ProductBox from "../components/ProductsComponent/ProductBox";
 import NewProduct from "../components/ProductsComponent/NewProduct";
 import { formatCurrency } from "../../../shared/Categpries";
 import api from "../../../api/api";
+import EmptyState from "../../../shared/EmptyState";
 
 const Products = () => {
   const [newProductDrawer, setNewProductDrawer] = useState(false);
@@ -20,14 +21,19 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/api/products").then((response) => {
-      const data = response.data.products;
-      setLoading(false);
-      setProducts(data);
-      const sortedItems = data.sort((a, b) => b.sales - a.sales);
-      const topThreeItems = sortedItems.slice(0, 3);
-      setTopProducts(topThreeItems);
-    });
+    api
+      .get("/api/products")
+      .then((response) => {
+        const data = response.data.products;
+        setLoading(false);
+        setProducts(data);
+        const sortedItems = data.sort((a, b) => b.sales - a.sales);
+        const topThreeItems = sortedItems.slice(0, 3);
+        setTopProducts(topThreeItems);
+      })
+      .catch((error) => {
+        setLoading(true);
+      });
   }, []);
 
   const handleDrawer = () => {
@@ -123,7 +129,24 @@ const Products = () => {
                     padding: "10px",
                   }}
                 >
-                  <Table columns={columns} data={list} />
+                  <Table
+                    columns={columns}
+                    data={list}
+                    empty={
+                      <>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "10%",
+                            textAlign: "center",
+                          }}
+                        >
+                          <EmptyState emptyText="No Record Available" />
+                        </Box>
+                      </>
+                    }
+                  />
                 </Box>
               </Grid>
               <Grid item xs={3}>

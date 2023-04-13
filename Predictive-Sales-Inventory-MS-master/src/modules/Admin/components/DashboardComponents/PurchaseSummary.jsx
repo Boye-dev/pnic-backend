@@ -1,5 +1,10 @@
-import { Box, Typography, Button, Chip } from "@mui/material";
-import React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import Table from "../../../../shared/Table.tsx";
+import { formatCurrency } from "../../../../shared/Categpries";
 
 const PurchaseSummary = () => {
   const productInfo = [
@@ -33,16 +38,94 @@ const PurchaseSummary = () => {
     },
   ];
 
+  const columns = [
+    {
+      header: "Product ID",
+      key: "index",
+      sort: true,
+    },
+    {
+      header: "Vendor",
+      key: "name",
+    },
+    {
+      header: "Status",
+      key: "status",
+      sort: true,
+      align: "center",
+    },
+    {
+      header: "Amount",
+      key: "amount",
+      sort: true,
+      align: "left",
+    },
+    {
+      header: "Date",
+      key: "date",
+      align: "left",
+    },
+  ];
+
+  function purchaseData({ id, index, name, status, amount, date }) {
+    return {
+      id,
+      index: index || "--",
+      name: name || "--",
+      status: (
+        <Chip
+          label={
+            status?.toLowerCase() === "delivered" ? "Delivered" : "Pending"
+          }
+          size="small"
+          sx={{
+            borderRadius: 1,
+            backgroundColor:
+              status?.toLowerCase() === "delivered"
+                ? "#00BB8A"
+                : status?.toLowerCase() === "pending"
+                ? "#FF8C42"
+                : "#FFD4D2",
+            color: "white",
+            width: "60px",
+          }}
+        />
+      ),
+      amount: formatCurrency(amount) || "--",
+      date: date || "--",
+    };
+  }
+
+  const purchases = productInfo?.map(
+    ({ id, index, name, status, amount, date }) =>
+      purchaseData({
+        id,
+        index,
+        name,
+        status,
+        amount,
+        date,
+      }) || []
+  );
+
+  const list = purchases;
+
   return (
     <>
       <Box
         sx={{
           border: "1px solid #E55934",
           borderRadius: "15px",
-          padding: "15px 30px",
+          padding: "5px",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "5px",
+          }}
+        >
           <Typography variant="h6" sx={{ fontWeight: "599" }}>
             Latest Purchases
           </Typography>
@@ -58,91 +141,7 @@ const PurchaseSummary = () => {
           </Button>
         </Box>
         <Box marginTop="15px">
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontSize: "15px", color: "#A9A9A9" }}>
-              Purchase ID
-            </Typography>
-            <Typography sx={{ fontSize: "15px", color: "#A9A9A9" }}>
-              Vendor
-            </Typography>
-            <Typography sx={{ fontSize: "15px", color: "#A9A9A9" }}>
-              Date
-            </Typography>
-            <Typography sx={{ fontSize: "15px", color: "#A9A9A9" }}>
-              Status
-            </Typography>
-            <Typography sx={{ fontSize: "15px", color: "#A9A9A9" }}>
-              Amount
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box>
-              {productInfo?.map((element) => (
-                <React.Fragment key={Math.random()}>
-                  <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
-                    {element.index}
-                  </Typography>
-                </React.Fragment>
-              ))}
-            </Box>
-            <hr />
-
-            <Box>
-              {productInfo?.map((element) => (
-                <React.Fragment key={Math.random()}>
-                  <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
-                    {element.name}
-                  </Typography>
-                </React.Fragment>
-              ))}
-            </Box>
-            <hr />
-
-            <Box>
-              {productInfo?.map((element) => (
-                <React.Fragment key={Math.random()}>
-                  <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
-                    {element.date}
-                  </Typography>
-                </React.Fragment>
-              ))}
-            </Box>
-            <hr />
-            <Box>
-              {productInfo?.map((element) => (
-                <React.Fragment key={Math.random()}>
-                  <Box>
-                    <Chip
-                      label={element.status}
-                      size="small"
-                      sx={{
-                        borderRadius: 1,
-                        fontSize: "12px",
-                        width: "83px",
-                        marginBottom: "10px",
-                        backgroundColor:
-                          element.status === "Delivered"
-                            ? "#00BB8A"
-                            : "#FF8C42",
-                        color: "white",
-                      }}
-                    />
-                    <br />
-                  </Box>
-                </React.Fragment>
-              ))}
-            </Box>
-            <hr />
-            <Box>
-              {productInfo?.map((element) => (
-                <React.Fragment key={Math.random()}>
-                  <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
-                    {element.amount}
-                  </Typography>
-                </React.Fragment>
-              ))}
-            </Box>
-          </Box>
+          <Table columns={columns} data={list} />
         </Box>
       </Box>
     </>
