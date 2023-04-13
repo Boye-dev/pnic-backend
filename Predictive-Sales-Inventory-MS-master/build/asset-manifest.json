@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.17e30337.css",
-    "main.js": "/static/js/main.08a434ee.js",
+    "main.js": "/static/js/main.787315c9.js",
     "static/js/787.68a72f44.chunk.js": "/static/js/787.68a72f44.chunk.js",
     "static/media/shopping-cart.gif": "/static/media/shopping-cart.bd2f6fdaa1f08cf3744f.gif",
     "static/media/PSIMSLogo.png": "/static/media/PSIMSLogo.1a7b5f065d3ce60cef8d.png",
@@ -20,11 +20,11 @@
     "static/media/edit.svg": "/static/media/edit.b545250a02433d9daa1d6ed5c5bedaf6.svg",
     "static/media/logout.svg": "/static/media/logout.981d6d2520c3e5230b3fe818d907ae12.svg",
     "main.17e30337.css.map": "/static/css/main.17e30337.css.map",
-    "main.08a434ee.js.map": "/static/js/main.08a434ee.js.map",
+    "main.787315c9.js.map": "/static/js/main.787315c9.js.map",
     "787.68a72f44.chunk.js.map": "/static/js/787.68a72f44.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.17e30337.css",
-    "static/js/main.08a434ee.js"
+    "static/js/main.787315c9.js"
   ]
 }
