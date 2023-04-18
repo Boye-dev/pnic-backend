@@ -29,19 +29,18 @@ const Records = () => {
       sort: true,
     },
     {
-      header: "Quantity Before",
-      key: "quantity_before",
+      header: "Quantity Sold",
+      key: "quantitySold",
+      align: "center",
     },
     {
       header: "Quantity After",
       key: "quantity_after",
-      sort: true,
       align: "center",
     },
     {
       header: "Amount paid",
-      key: "amount_paid",
-      sort: true,
+      key: "total",
       align: "left",
     },
     {
@@ -60,6 +59,11 @@ const Records = () => {
     {
       header: "Vendor",
       key: "vendorName",
+    },
+    {
+      header: "Quantity",
+      key: "quantity",
+      align: "center",
     },
     {
       header: "Status",
@@ -100,16 +104,13 @@ const Records = () => {
   const getSales = () => {
     api.get("/api/sales").then((response) => {
       const salesData = response.data.sales;
-      // setLoading(false);
       setSale(salesData);
     });
   };
 
   const getPurchases = () => {
     api.get("/api/purchases").then((response) => {
-      console.log(response);
       const purchaseData = response.data;
-      // setLoading(false);
       setPurchase(purchaseData);
     });
   };
@@ -117,26 +118,35 @@ const Records = () => {
   function salesData({
     id,
     product,
-    quantity_before,
+    quantitySold,
     quantity_after,
-    amount_paid,
+    total,
     date,
   }) {
     return {
       id,
       product: product || "--",
-      quantity_before: quantity_before || "--",
+      quantitySold: quantitySold || "--",
       quantity_after: quantity_after || "--",
-      amount_paid: amount_paid || "==",
-      date: date || "--",
+      total: formatCurrency(total) || "==",
+      date: format(new Date(date), "yyyy-MM-dd") || "--",
     };
   }
 
-  function purchaseData({ id, product, vendorName, status, total, date }) {
+  function purchaseData({
+    id,
+    product,
+    vendorName,
+    quantity,
+    status,
+    total,
+    date,
+  }) {
     return {
       id,
       product: product || "--",
       vendorName: vendorName || "--",
+      quantity: quantity || "--",
       status: (
         <Chip
           label={status?.toLowerCase() === "active" ? "Active" : "Pending"}
@@ -160,23 +170,24 @@ const Records = () => {
   }
 
   const sales = sale?.map(
-    ({ id, product, quantity_before, quantity_after, amount_paid, date }) =>
+    ({ id, product, quantitySold, total, date }) =>
       salesData({
         id,
-        product,
-        quantity_before,
-        quantity_after,
-        amount_paid,
+        product: product?.name,
+        quantitySold,
+        quantity_after: product?.unit,
+        total,
         date,
       }) || []
   );
 
   const purchases = purchase?.map(
-    ({ id, product, vendorName, status, total, date }) =>
+    ({ id, products, vendorName, quantity, status, total, date }) =>
       purchaseData({
         id,
-        product,
+        product: products?.map((x) => x.productId.name),
         vendorName,
+        quantity: products?.map((x) => x.quantity),
         status,
         total,
         date,

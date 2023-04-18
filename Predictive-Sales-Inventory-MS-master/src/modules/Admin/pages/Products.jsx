@@ -13,6 +13,9 @@ import NewProduct from "../components/ProductsComponent/NewProduct";
 import { formatCurrency } from "../../../shared/Categpries";
 import api from "../../../api/api";
 import EmptyState from "../../../shared/EmptyState";
+import { AdminPaths } from "../../../routes/paths.js";
+import { useNavigate } from "react-router-dom";
+import ProductAction from "../components/ProductsComponent/ProductAction.jsx";
 
 export const columns = [
   {
@@ -43,9 +46,12 @@ export const columns = [
 
 const Products = ({ cashier }) => {
   const [newProductDrawer, setNewProductDrawer] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState(false);
   const [products, setProducts] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [id, setId] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -67,9 +73,18 @@ const Products = ({ cashier }) => {
     setNewProductDrawer(!newProductDrawer);
   };
 
-  function creatData({ id, name, price, unit, status, category }) {
+  const updateDrawer = () => {
+    setUpdateProduct(!updateProduct);
+  };
+
+  const getId = (row) => {
+    setId(row?._id);
+  };
+  console.log(id);
+
+  function creatData({ _id, name, price, unit, status, category }) {
     return {
-      id,
+      _id,
       name: name || "--",
       price: formatCurrency(price) || "--",
       unit: `${unit} piece(s)` || "--",
@@ -93,9 +108,9 @@ const Products = ({ cashier }) => {
   }
 
   const list = products?.map(
-    ({ id, name, price, unit, status, category }) =>
+    ({ _id, name, price, unit, status, category }) =>
       creatData({
-        id,
+        _id,
         name,
         price,
         unit,
@@ -132,6 +147,10 @@ const Products = ({ cashier }) => {
                   <Table
                     columns={columns}
                     data={list}
+                    onRowItemClick={(row) => {
+                      getId(row);
+                      updateDrawer(true);
+                    }}
                     empty={
                       <>
                         <Box
@@ -191,6 +210,11 @@ const Products = ({ cashier }) => {
             </Grid>
           </Box>
           <NewProduct open={newProductDrawer} close={() => handleDrawer()} />
+          <ProductAction
+            open={updateProduct}
+            close={() => updateDrawer()}
+            productId={id}
+          />
         </>
       )}
     </>

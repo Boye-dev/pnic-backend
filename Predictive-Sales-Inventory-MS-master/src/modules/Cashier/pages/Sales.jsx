@@ -6,7 +6,9 @@ import api from "../../../api/api";
 import EmptyState from "../../../shared/EmptyState";
 import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
 import { useNavigate } from "react-router-dom";
-import { BasePaths, CashierPaths } from "../../../routes/paths";
+import { CashierPaths } from "../../../routes/paths";
+import { formatCurrency } from "../../../shared/Categpries";
+import { format } from "date-fns";
 
 const Sales = () => {
   const [sale, setSales] = useState([]);
@@ -20,22 +22,21 @@ const Sales = () => {
     {
       header: "Products",
       key: "product",
-      sort: true,
     },
     {
-      header: "Quantity Before",
-      key: "quantity_before",
+      header: "Quantity Sold",
+      key: "quantitySold",
+      align: "center",
     },
     {
       header: "Quantity After",
       key: "quantity_after",
-      sort: true,
       align: "center",
     },
     {
       header: "Amount paid",
-      key: "amount_paid",
-      sort: true,
+      key: "total",
+
       align: "left",
     },
     {
@@ -56,29 +57,29 @@ const Sales = () => {
   function createData({
     id,
     product,
-    quantity_before,
+    quantitySold,
     quantity_after,
-    amount_paid,
+    total,
     date,
   }) {
     return {
       id,
       product: product || "--",
-      quantity_before: quantity_before || "--",
+      quantitySold: quantitySold || "--",
       quantity_after: quantity_after || "--",
-      amount_paid: amount_paid || "==",
-      date: date || "--",
+      total: formatCurrency(total) || "--",
+      date: format(new Date(date), "yyyy-MM-dd") || "--",
     };
   }
 
   const sales = sale?.map(
-    ({ id, product, quantity_before, quantity_after, amount_paid, date }) =>
+    ({ id, product, quantitySold, total, date }) =>
       createData({
         id,
-        product,
-        quantity_before,
-        quantity_after,
-        amount_paid,
+        product: product?.name,
+        quantitySold,
+        quantity_after: product?.unit,
+        total,
         date,
       }) || []
   );
@@ -86,7 +87,7 @@ const Sales = () => {
   return (
     <Box marginX="20px">
       <Box display="flex" justifyContent="space-between">
-        <Typography sx={header}> Daily Sales </Typography>
+        <Typography sx={header}> Sales </Typography>
         <Button
           sx={{ marginBottom: "10px" }}
           variant="contained"

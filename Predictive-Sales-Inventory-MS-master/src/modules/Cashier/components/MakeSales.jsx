@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Radio from "@mui/material/Radio";
 import Button from "@mui/material/Button";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import ClearIcon from "@mui/icons-material/Clear";
+import FormLabel from "@mui/material/FormLabel";
+import InputLabel from "@mui/material/InputLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Controller, useForm } from "react-hook-form";
@@ -22,39 +21,72 @@ import { useNavigate } from "react-router-dom";
 import { CashierPaths } from "../../../routes/paths";
 import api from "../../../api/api";
 import Auth from "../../Auth/auth";
+import { formatCurrency } from "../../../shared/Categpries";
+// import FormHelperText from "@mui/material/FormHelperText";
+// import Autocomplete from "@mui/material/Autocomplete";
+// import ClearIcon from "@mui/icons-material/Clear";
+// import Chip from "@mui/material/Chip";
 
 const MakeSales = () => {
   const navigate = useNavigate();
   const { getCurrentUser } = Auth;
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productPrice, setProductPrice] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(null);
+  const [productId, setProductId] = useState(null);
 
   useEffect(() => {
     api.get("/api/products").then((response) => {
       const data = response.data.products;
       setProducts(data);
+      console.log(data);
     });
   }, []);
 
   const validationSchema = yup.object().shape({
-    name: yup.string().required(),
-    description: yup.string().required(),
-    unit: yup.number().positive().integer().required(),
-    category: yup.string().required(),
-    price: yup.number().required(),
-    // mainImage: yup.mixed().required(),
+    quantitySold: yup.number().positive().integer().required(),
   });
 
   const { handleSubmit, control } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      unit: "",
-      category: "",
-      price: "",
+      quantitySold: "",
     },
   });
+
+  const handleProductChange = (event) => {
+    const productId = event.target.value;
+    setSelectedProduct(productId);
+    setProductId(productId);
+
+    // find the selected product's price
+    const selectedProduct = products.find(
+      (product) => product._id === productId
+    );
+    setProductPrice(selectedProduct.price);
+  };
+
+  const handleQuantityChange = (event) => {
+    const quantity = event.target.value;
+    setTotalPrice(productPrice * quantity);
+  };
+
+  const onSubmit = async (payload) => {
+    // const formData = new FormData();
+    // const { quantitySold, productId } = payload;
+
+    try {
+      const response = await api.post(`/api/input-sale/${productId}`, payload);
+      if (response.data.status === "OK") {
+        navigate(CashierPaths.RECEIPT);
+        toast.success("Product Successfully Added");
+      }
+    } catch (error) {
+      toast.error(error.response.data.actualError[0]);
+    }
+  };
 
   const today = new Date();
   const dateString = today.toLocaleString();
@@ -100,7 +132,7 @@ const MakeSales = () => {
                   control={control}
                 />
 
-                <Controller
+                {/* <Controller
                   render={({
                     field: { ref, ...fields },
                     fieldState: { error },
@@ -150,26 +182,69 @@ const MakeSales = () => {
                   )}
                   name="products"
                   control={control}
+                /> */}
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">Product</InputLabel>
+                  <Controller
+                    render={({
+                      field: { ref, ...fields },
+                      fieldState: { error },
+                    }) => (
+                      <Select
+                        labelId="product"
+                        id="demo-simple-select"
+                        label="Product"
+                        {...fields}
+                        // value={selectedProduct}
+                        error={Boolean(error?.message)}
+                        helperText={error?.message}
+                        onChange={handleProductChange}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 200,
+                            },
+                          },
+                        }}
+                      >
+                        {products?.map((product) => (
+                          <MenuItem key={product._id} value={product._id}>
+                            {" "}
+                            {product.name}{" "}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                    name="product"
+                    control={control}
+                  />
+                </FormControl>
+                <Controller
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      label="Quantity Sold"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      onChange={(event) => {
+                        fields.onChange(event);
+                        handleQuantityChange(event);
+                      }}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                    />
+                  )}
+                  name="quantitySold"
+                  control={control}
                 />
-                <Typography>Total Cost of Items Bought: ₦</Typography>
-                {/* <FormControl variant="standard">
-                  <FormLabel id="demo-error-radios">Payment Method:</FormLabel>
-                  <RadioGroup
-                    aria-labelledby="demo-error-radios"
-                    name="payment-method"
-                  >
-                    <FormControlLabel
-                      //   value="best"
-                      control={<Radio />}
-                      label="POS"
-                    />
-                    <FormControlLabel
-                      //   value="worst"
-                      control={<Radio />}
-                      label="Cash"
-                    />
-                  </RadioGroup>
-                </FormControl> */}
+                <Typography>
+                  Total Cost of Items Bought: {formatCurrency(totalPrice)}{" "}
+                </Typography>
+
                 <Controller
                   name="gender"
                   control={control}
@@ -220,8 +295,7 @@ const MakeSales = () => {
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
-                    // handleSubmit(onSubmit());
-                    navigate(CashierPaths.RECEIPT);
+                    handleSubmit(onSubmit());
                     setIsLoading(true);
                   }}
                   disabled={isLoading}

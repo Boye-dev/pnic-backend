@@ -35,8 +35,8 @@ const Users = () => {
   };
 
   const getDeactivateId = (row) => {
-    console.log(row.id);
-    setId(row?.id);
+    console.log(row._id);
+    setId(row?._id);
   };
 
   const deactivateUser = () => {
@@ -147,7 +147,7 @@ const Users = () => {
                     isLoading
                     columns={columns}
                     data={list}
-                    onRowItemClick={(row) => console.log(row)}
+                    onRowItemClick={(row) => getDeactivateId(row)}
                     empty={
                       <>
                         <Box
