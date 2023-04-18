@@ -23,4 +23,6 @@ export const CashierPaths = {
   DASHBOARD: "/cashier/dashboard",
   SALES: "/cashier/sales",
   PRODUCTS: "/cashier/products",
+  ADDSALES: "/cashier/make-sales",
+  RECEIPT: "/cashier/generate-receipt",
 };

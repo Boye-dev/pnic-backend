@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState, useEffect } from "react";
-import Table from "../../../shared/Table.tsx";
+import Table from "../../../shared/Table.jsx";
 import { header } from "./Dashboard";
 import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
 import ProductBox from "../components/ProductsComponent/ProductBox";
@@ -13,12 +13,45 @@ import NewProduct from "../components/ProductsComponent/NewProduct";
 import { formatCurrency } from "../../../shared/Categpries";
 import api from "../../../api/api";
 import EmptyState from "../../../shared/EmptyState";
+import { AdminPaths } from "../../../routes/paths.js";
+import { useNavigate } from "react-router-dom";
+import ProductAction from "../components/ProductsComponent/ProductAction.jsx";
 
-const Products = () => {
+export const columns = [
+  {
+    header: "Product",
+    key: "name",
+    sort: true,
+  },
+  {
+    header: "Amount",
+    key: "price",
+  },
+  {
+    header: "Quantity",
+    key: "unit",
+  },
+  {
+    header: "Category",
+    key: "category",
+    sort: true,
+    align: "left",
+  },
+  {
+    header: "Status",
+    key: "status",
+    sort: true,
+  },
+];
+
+const Products = ({ cashier }) => {
   const [newProductDrawer, setNewProductDrawer] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState(false);
   const [products, setProducts] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [id, setId] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -40,36 +73,18 @@ const Products = () => {
     setNewProductDrawer(!newProductDrawer);
   };
 
-  const columns = [
-    {
-      header: "Product",
-      key: "name",
-      sort: true,
-    },
-    {
-      header: "Amount",
-      key: "price",
-    },
-    {
-      header: "Quantity",
-      key: "unit",
-    },
-    {
-      header: "Category",
-      key: "category",
-      sort: true,
-      align: "left",
-    },
-    {
-      header: "Status",
-      key: "status",
-      sort: true,
-    },
-  ];
+  const updateDrawer = () => {
+    setUpdateProduct(!updateProduct);
+  };
 
-  function creatData({ id, name, price, unit, status, category }) {
+  const getId = (row) => {
+    setId(row?._id);
+  };
+  console.log(id);
+
+  function creatData({ _id, name, price, unit, status, category }) {
     return {
-      id,
+      _id,
       name: name || "--",
       price: formatCurrency(price) || "--",
       unit: `${unit} piece(s)` || "--",
@@ -93,9 +108,9 @@ const Products = () => {
   }
 
   const list = products?.map(
-    ({ id, name, price, unit, status, category }) =>
+    ({ _id, name, price, unit, status, category }) =>
       creatData({
-        id,
+        _id,
         name,
         price,
         unit,
@@ -132,6 +147,10 @@ const Products = () => {
                   <Table
                     columns={columns}
                     data={list}
+                    onRowItemClick={(row) => {
+                      getId(row);
+                      updateDrawer(true);
+                    }}
                     empty={
                       <>
                         <Box
@@ -151,12 +170,16 @@ const Products = () => {
               </Grid>
               <Grid item xs={3}>
                 <Box display="flex" justifyContent="flex-end">
-                  <Button
-                    variant="contained"
-                    onClick={() => handleDrawer(true)}
-                  >
-                    <EditIcon />
-                  </Button>
+                  {cashier ? (
+                    ""
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={() => handleDrawer(true)}
+                    >
+                      <EditIcon />
+                    </Button>
+                  )}
                 </Box>
                 <Box
                   mt={4}
@@ -187,6 +210,11 @@ const Products = () => {
             </Grid>
           </Box>
           <NewProduct open={newProductDrawer} close={() => handleDrawer()} />
+          <ProductAction
+            open={updateProduct}
+            close={() => updateDrawer()}
+            productId={id}
+          />
         </>
       )}
     </>

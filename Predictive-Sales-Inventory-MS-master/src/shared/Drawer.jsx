@@ -49,7 +49,7 @@ const Drawer = ({
         display="flex"
         justifyContent="flex-end"
         alignItems="center"
-        // position="fixed"
+        position="fixed"
         sx={{ bottom: 0, zIndex: 1, right: 0 }}
       >
         <Button
@@ -57,7 +57,7 @@ const Drawer = ({
           onClick={() => onClose()}
           sx={{ marginRight: "1rem" }}
         >
-          <Typography color="#FF7F11">{cancelText}</Typography>
+          <Typography>{cancelText}</Typography>
         </Button>
         {onOk && <LoadingButton onClick={onOk}>{okText}</LoadingButton>}
       </Box>

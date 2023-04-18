@@ -3,7 +3,7 @@ import { ReactComponent as DashboardIcon } from "../assets/svgs/homeWhite.svg";
 import { ReactComponent as UserIcon } from "../assets/svgs/user.svg";
 import { ReactComponent as ProductIcon } from "../assets/svgs/productIcon.svg";
 import { ReactComponent as RecordIcon } from "../assets/svgs/records.svg";
-import { ReactComponent as SettingsIcon } from "../assets/svgs/settings.svg";
+// import { ReactComponent as SettingsIcon } from "../assets/svgs/settings.svg";
 import { AdminPaths, StockManPaths, CashierPaths } from "../routes/paths";
 
 export const ADMIN_NAV_ITEMS = [
@@ -27,11 +27,11 @@ export const ADMIN_NAV_ITEMS = [
     url: AdminPaths.RECORDS,
     icon: (active) => <RecordIcon />,
   },
-  {
-    name: "Settings",
-    url: AdminPaths.SETTINGS,
-    icon: (active) => <SettingsIcon />,
-  },
+  // {
+  //   name: "Settings",
+  //   url: AdminPaths.SETTINGS,
+  //   icon: (active) => <SettingsIcon />,
+  // },
 ];
 
 export const STOCK_MAN_NAV_ITEMS = [
@@ -41,7 +41,7 @@ export const STOCK_MAN_NAV_ITEMS = [
     icon: (active) => <DashboardIcon />,
   },
   {
-    name: "Produts",
+    name: "Products",
     url: StockManPaths.PRODUCTS,
     icon: (active) => <ProductIcon />,
   },
@@ -50,11 +50,11 @@ export const STOCK_MAN_NAV_ITEMS = [
     url: StockManPaths.RECORD,
     icon: (active) => <RecordIcon />,
   },
-  {
-    name: "Settings",
-    url: StockManPaths.SETTINGS,
-    icon: (active) => <SettingsIcon />,
-  },
+  // {
+  //   name: "Settings",
+  //   url: StockManPaths.SETTINGS,
+  //   icon: (active) => <SettingsIcon />,
+  // },
 ];
 
 export const CASHIER_NAV_ITEMS = [
@@ -64,7 +64,7 @@ export const CASHIER_NAV_ITEMS = [
     icon: (active) => <DashboardIcon />,
   },
   {
-    name: "Produts",
+    name: "Products",
     url: CashierPaths.PRODUCTS,
     icon: (active) => <ProductIcon />,
   },

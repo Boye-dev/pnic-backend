@@ -226,7 +226,10 @@ const NewProduct = ({ open, close }) => {
               name="description"
               control={control}
             />
-            <label htmlFor={"picture"} style={{ cursor: "pointer" }}>
+            <label
+              htmlFor={"picture"}
+              style={{ cursor: "pointer", marginBottom: "60px" }}
+            >
               {" "}
               Product Image
             </label>

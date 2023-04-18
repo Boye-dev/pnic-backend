@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState, useEffect } from "react";
-import Table from "../../../shared/Table.tsx";
+import Table from "../../../shared/Table.jsx";
 import { header } from "./Dashboard";
 import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
 import TopUser from "../components/UsersComponent/TopUser";
@@ -19,6 +19,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [id, setId] = useState();
 
   useEffect(() => {
     api.get("/api/users").then((response) => {
@@ -31,6 +32,18 @@ const Users = () => {
 
   const handleClose = () => {
     setIsOpen(!isOpen);
+  };
+
+  const getDeactivateId = (row) => {
+    console.log(row._id);
+    setId(row?._id);
+  };
+
+  const deactivateUser = () => {
+    api.put(`api/deactivate/${id}`).then((response) => {
+      console.log(response);
+      window.location.reload();
+    });
   };
 
   const columns = [
@@ -55,9 +68,9 @@ const Users = () => {
     },
   ];
 
-  function creatData({ id, username, role, status, action }) {
+  function creatData({ _id, username, role, status, action }) {
     return {
-      id,
+      _id: _id,
       username: username || "--",
       role: role || "--",
       status: (
@@ -79,21 +92,25 @@ const Users = () => {
       ),
       action:
         status?.toLowerCase() === "active" ? (
-          <Button variant="outlined" color="warning">
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={() => deactivateUser()}
+          >
             Deactivate
           </Button>
         ) : (
           <Button variant="outlined" color="warning">
-            Activate
+            Delete
           </Button>
         ),
     };
   }
 
   const list = users?.map(
-    ({ id, username, role, status, action }) =>
+    ({ _id, username, role, status, action }) =>
       creatData({
-        id,
+        _id,
         username,
         role,
         status,
@@ -130,6 +147,7 @@ const Users = () => {
                     isLoading
                     columns={columns}
                     data={list}
+                    onRowItemClick={(row) => getDeactivateId(row)}
                     empty={
                       <>
                         <Box

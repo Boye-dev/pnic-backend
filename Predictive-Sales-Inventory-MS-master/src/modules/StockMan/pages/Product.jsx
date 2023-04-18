@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
-import Table from "../../../shared/Table.tsx";
+import Table from "../../../shared/Table.jsx";
 import { header } from "../../Admin/pages/Dashboard";
 import ProductBox from "../../Admin/components/ProductsComponent/ProductBox";
 

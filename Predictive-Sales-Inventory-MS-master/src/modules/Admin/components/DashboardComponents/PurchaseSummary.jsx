@@ -3,10 +3,14 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import Table from "../../../../shared/Table.tsx";
+import { useNavigate } from "react-router-dom";
+import Table from "../../../../shared/Table.jsx";
 import { formatCurrency } from "../../../../shared/Categpries";
+import { AdminPaths } from "../../../../routes/paths.js";
 
 const PurchaseSummary = () => {
+  const navigate = useNavigate();
+
   const productInfo = [
     {
       index: "A - 12355788",
@@ -22,20 +26,20 @@ const PurchaseSummary = () => {
       status: "Delivered",
       amount: "2000",
     },
-    {
-      index: "M - 12355788",
-      name: "Joy",
-      date: "Today",
-      status: "Pending",
-      amount: "2000",
-    },
-    {
-      index: "E - 12355788",
-      name: "Joy",
-      date: "Today",
-      status: "Delivered",
-      amount: "2000",
-    },
+    // {
+    //   index: "M - 12355788",
+    //   name: "Joy",
+    //   date: "Today",
+    //   status: "Pending",
+    //   amount: "2000",
+    // },
+    // {
+    //   index: "E - 12355788",
+    //   name: "Joy",
+    //   date: "Today",
+    //   status: "Delivered",
+    //   amount: "2000",
+    // },
   ];
 
   const columns = [
@@ -136,6 +140,7 @@ const PurchaseSummary = () => {
               backgroundColor: "#E55934",
               color: "white",
             }}
+            onClick={() => navigate(AdminPaths.RECORDS)}
           >
             See More
           </Button>
