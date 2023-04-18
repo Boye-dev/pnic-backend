@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import Table from "../../../shared/Table.tsx";
+import Table from "../../../shared/Table.jsx";
 import { header } from "./Dashboard";
 import TogglePage from "../../../shared/TogglePage";
 import api from "../../../api/api";

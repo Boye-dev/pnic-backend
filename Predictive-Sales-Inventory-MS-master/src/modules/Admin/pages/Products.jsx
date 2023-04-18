@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState, useEffect } from "react";
-import Table from "../../../shared/Table.tsx";
+import Table from "../../../shared/Table.jsx";
 import { header } from "./Dashboard";
 import { ReactComponent as EditIcon } from "../../../assets/svgs/edit.svg";
 import ProductBox from "../components/ProductsComponent/ProductBox";
@@ -14,7 +14,34 @@ import { formatCurrency } from "../../../shared/Categpries";
 import api from "../../../api/api";
 import EmptyState from "../../../shared/EmptyState";
 
-const Products = () => {
+export const columns = [
+  {
+    header: "Product",
+    key: "name",
+    sort: true,
+  },
+  {
+    header: "Amount",
+    key: "price",
+  },
+  {
+    header: "Quantity",
+    key: "unit",
+  },
+  {
+    header: "Category",
+    key: "category",
+    sort: true,
+    align: "left",
+  },
+  {
+    header: "Status",
+    key: "status",
+    sort: true,
+  },
+];
+
+const Products = ({ cashier }) => {
   const [newProductDrawer, setNewProductDrawer] = useState(false);
   const [products, setProducts] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
@@ -39,33 +66,6 @@ const Products = () => {
   const handleDrawer = () => {
     setNewProductDrawer(!newProductDrawer);
   };
-
-  const columns = [
-    {
-      header: "Product",
-      key: "name",
-      sort: true,
-    },
-    {
-      header: "Amount",
-      key: "price",
-    },
-    {
-      header: "Quantity",
-      key: "unit",
-    },
-    {
-      header: "Category",
-      key: "category",
-      sort: true,
-      align: "left",
-    },
-    {
-      header: "Status",
-      key: "status",
-      sort: true,
-    },
-  ];
 
   function creatData({ id, name, price, unit, status, category }) {
     return {
@@ -151,12 +151,16 @@ const Products = () => {
               </Grid>
               <Grid item xs={3}>
                 <Box display="flex" justifyContent="flex-end">
-                  <Button
-                    variant="contained"
-                    onClick={() => handleDrawer(true)}
-                  >
-                    <EditIcon />
-                  </Button>
+                  {cashier ? (
+                    ""
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={() => handleDrawer(true)}
+                    >
+                      <EditIcon />
+                    </Button>
+                  )}
                 </Box>
                 <Box
                   mt={4}

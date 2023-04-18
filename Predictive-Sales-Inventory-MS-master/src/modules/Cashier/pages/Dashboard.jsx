@@ -1,15 +1,69 @@
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { header } from "../../Admin/pages/Dashboard";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import Chip from "@mui/material/Chip";
 import ProfileBox from "../../Admin/components/ProfileBox";
 import bluePerson from "../../../assets/svgs/bluePerson.svg";
 import greenPerson from "../../../assets/svgs/greenPerson.svg";
 import brownPerson from "../../../assets/svgs/brownPerson.svg";
 import ProductBox from "../../Admin/components/ProductsComponent/ProductBox";
+import Table from "../../../shared/Table.jsx";
+import { columns } from "../../Admin/pages/Products";
+import api from "../../../api/api";
+import { formatCurrency } from "../../../shared/Categpries";
+import EmptyState from "../../../shared/EmptyState";
 
 const Dashboard = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    api.get("/api/products").then((response) => {
+      const data = response.data.products;
+      const sortedItems = data.sort((a, b) => b.sales - a.sales);
+      const topThreeItems = sortedItems.slice(0, 3);
+      setProducts(topThreeItems);
+    });
+  }, []);
+
+  function creatData({ id, name, price, unit, status, category }) {
+    return {
+      id,
+      name: name || "--",
+      price: formatCurrency(price) || "--",
+      unit: `${unit} piece(s)` || "--",
+      category: category || "--",
+      status: (
+        <Chip
+          label={
+            unit >= 20 ? "In stock" : unit === 0 ? "Sold Out" : "Running Out"
+          }
+          size="small"
+          sx={{
+            borderRadius: 1,
+            backgroundColor:
+              unit >= 20 ? "#00BB8A" : unit === 0 ? "#BB2D00" : "#FF7F11",
+            color: "white",
+            width: "60px",
+          }}
+        />
+      ),
+    };
+  }
+
+  const list = products?.map(
+    ({ id, name, price, unit, status, category }) =>
+      creatData({
+        id,
+        name,
+        price,
+        unit,
+        status,
+        category,
+      }) || []
+  );
+
   return (
     <>
       <Box marginX="20px" marginBottom="5px">
@@ -72,6 +126,23 @@ const Dashboard = () => {
               <ProductBox productname={"Skittles"} />
             </Grid>
           </Grid>
+        </Box>
+        <Box
+          sx={{
+            border: "1px solid black",
+            marginY: "5px",
+            borderRadius: "15px",
+            // height: "200px",
+          }}
+        >
+          <Typography
+            sx={{ fontSize: "18px", fontWeight: "bold", margin: "10px" }}
+          >
+            Products
+          </Typography>
+          <Box marginX="10px">
+            <Table columns={columns} data={list} />
+          </Box>
         </Box>
       </Box>
     </>

@@ -11,6 +11,9 @@ import brownPerson from "../../../assets/svgs/brownPerson.svg";
 import sales from "../../../assets/svgs/sales.svg";
 import invoice from "../../../assets/svgs/invoice.svg";
 import { Typography } from "@mui/material";
+import TopCategoryChart from "../components/DashboardComponents/TopCategoryChart";
+import SalesBulletChart from "../components/DashboardComponents/SalesBulletChart";
+import PurchaseVsSales from "../components/DashboardComponents/PurchaseVsSales";
 
 export const header = {
   color: "#2364AA",
@@ -68,22 +71,10 @@ const Dashboard = () => {
           <Grid item md={8} container direction="column" spacing={2}>
             <Grid item container spacing={2}>
               <Grid item xs={12} sm={12} md={6}>
-                <NumericDetails
-                  num="112"
-                  icon={invoice}
-                  iconBgColor="#2364AA"
-                  countType="Total Invoices"
-                  bColor="blue"
-                />
+                <TopCategoryChart />
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
-                <NumericDetails
-                  num="546"
-                  icon={sales}
-                  iconBgColor="#56351E"
-                  countType="Total Sales"
-                  bColor="#56351E"
-                />
+                <SalesBulletChart />
               </Grid>
             </Grid>
             <Grid item>
@@ -92,6 +83,7 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
             <MiniUserList />
+            {/* <PurchaseVsSales /> */}
           </Grid>
         </Grid>
       </Box>

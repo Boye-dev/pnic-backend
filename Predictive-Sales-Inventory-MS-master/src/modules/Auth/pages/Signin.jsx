@@ -54,7 +54,7 @@ const Signin = () => {
         } else if (data.user.role === "Stock Manager") {
           navigate(StockManPaths.DASHBOARD);
         } else {
-          navigate(CashierPaths.SALES);
+          navigate(CashierPaths.DASHBOARD);
         }
       }
     } catch (error) {

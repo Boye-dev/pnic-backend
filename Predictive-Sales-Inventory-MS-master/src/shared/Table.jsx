@@ -201,9 +201,7 @@ const Table = ({
                               <Checkbox
                                 checked={isUserSelected}
                                 disabled={row.isMerged || row?.disabled}
-                                onChange={(
-                                  event: React.ChangeEvent<HTMLInputElement>
-                                ) => handleClick(event, row)}
+                                onChange={(event) => handleClick(event, row)}
                                 inputProps={{ "aria-label": "select a user" }}
                               />
                             </TableCell>
