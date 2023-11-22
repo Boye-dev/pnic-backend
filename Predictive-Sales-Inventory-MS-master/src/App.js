@@ -1,72 +1,23 @@
 import "./App.css";
-import { useState } from "react";
+import NavBar from "./shared/NavBar";
+import React, { useState, useTransition, Suspense, Fragment } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminRouter from "./modules/Admin/AdminRouter";
+import StockManRouter from "./modules/StockMan/StockManRouter";
+import CashierRouter from "./modules/Cashier/CashierRouter";
+import Signin from "./modules/Auth/pages/Signin";
 
 function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
-  const handleSubmit = async (e) => {
-    const response = await fetch("http://localhost:4000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-
-      credentials: "include",
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log(data);
-      // Successful login, do something with the returned data
-    } else {
-      // Handle error
-    }
-  };
-  const getProducts = async (e) => {
-    const response = await fetch("https://pnic.up.railway.app/api/products", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log(data);
-      // Successful login, do something with the returned data
-    } else {
-      // Handle error
-    }
-  };
   return (
-    <div>
-      <input
-        type="text"
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="text"
-        name="password"
-        value={password}
-        onChange={(e) => setPass(e.target.value)}
-      />
-      <input
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
-      />
-
-      <input
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          getProducts(e);
-        }}
-      />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Signin />} />
+        <Route exact path="/login" element={<Signin />} />
+        <Route exact path="/admin/*" element={<AdminRouter />} />
+        <Route exact path="/stockManager/*" element={<StockManRouter />} />
+        <Route exact path="/cashier/*" element={<CashierRouter />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
