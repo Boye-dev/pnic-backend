@@ -37,8 +37,8 @@ const SideNav = styled(List)({
   flexDirection: "column",
 });
 
-const NavBar = () => {
-  const { getCurrentAdmin } = Auth;
+const NavBar = ({getCurrentAdmin}) => {
+  // const { getCurrentAdmin } = Auth;
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleItemClick = (index) => {
@@ -84,7 +84,8 @@ const NavBar = () => {
         <Toolbar />
         {/* <Divider /> */}
         <SideNav sx={{ marginX: "25px" }}>
-          {getCurrentAdmin()?.role === "Admin"
+          {/* {getCurrentAdmin()?.role === "Admin" */}
+          {getCurrentAdmin === "Admin"
             ? ADMIN_NAV_ITEMS.map((x, index) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton
@@ -106,7 +107,8 @@ const NavBar = () => {
                   </ListItemButton>
                 </ListItem>
               ))
-            : getCurrentAdmin()?.role === "Stock Manager"
+            // : getCurrentAdmin()?.role === "Stock Manager"
+            : getCurrentAdmin === "Stock Manager"
             ? STOCK_MAN_NAV_ITEMS.map((x, index) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton

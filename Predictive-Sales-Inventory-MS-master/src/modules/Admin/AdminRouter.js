@@ -23,15 +23,15 @@ const AdminRouter = () => {
   return (
     <>
       <Routes>
-        <Route element={<ProtectRoutes />}>
-          <Route element={<WithSidebar />}>
+        {/* <Route element={<ProtectRoutes />}> */}
+          <Route element={<WithSidebar getCurrentAdmin="Admin" />}>
             <Route path={"dashboard"} element={<Dashboard />} />
             <Route path={"users"} element={<Users />} />
             <Route path={"products"} element={<Products />} />
             <Route path={"records"} element={<Records />} />
             <Route path={"settings"} element={<Settings />} />
           </Route>
-        </Route>
+        {/* </Route> */}
       </Routes>
     </>
   );

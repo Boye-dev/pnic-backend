@@ -11,14 +11,14 @@ const StockManRouter = () => {
   return (
     <>
       <Routes>
-        <Route element={<ProtectRoutes />}>
-          <Route element={<WithSidebar />}>
+        {/* <Route element={<ProtectRoutes />}> */}
+          <Route element={<WithSidebar getCurrentAdmin="Stock Manager" />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products" element={<Product />} />
             <Route path="settings" element={<Settings />} />
             <Route path="records" element={<Records />} />
           </Route>
-        </Route>
+        {/* </Route> */}
       </Routes>
     </>
   );

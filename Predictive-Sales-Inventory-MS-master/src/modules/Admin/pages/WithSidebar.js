@@ -4,10 +4,10 @@ import { Outlet } from "react-router";
 import NavBar from "../../../shared/NavBar";
 import PersonalizedAppBar from "../../../shared/PersonalizedAppBar";
 
-const WithSidebar = () => {
+const WithSidebar = ({getCurrentAdmin}) => {
   return (
     <>
-      <NavBar />
+      <NavBar getCurrentAdmin={getCurrentAdmin} />
       <Container
         sx={{
           width: `calc(100 % -212)`,
