@@ -28,7 +28,7 @@ router.get("/sale/:id", isAdminOrStockManager, isActive, async (req, res) => {
 });
 
 //To get all sales
-router.get("/sales", isActive, async (req, res) => {
+router.get("/sales", isAdminOrStockManager, isActive, async (req, res) => {
   try {
     const sales = await getAllSales();
     console.log("All Sales", sales);

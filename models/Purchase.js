@@ -8,7 +8,7 @@ const purchaseSchema = new Schema(
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "product",
+          ref: "Product",
           required: true,
         },
 
