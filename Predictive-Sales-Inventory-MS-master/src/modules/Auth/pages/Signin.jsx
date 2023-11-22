@@ -42,24 +42,25 @@ const Signin = () => {
   };
 
   const onSubmit = async () => {
-    try {
-      const response = await api.post("/api/login", { email, password });
+    // try {
+    //   const response = await api.post("/api/login", { email, password });
 
-      // If the response is OK, redirect to the appropriate dashboard based on user role
-      if (response.status === 200) {
-        const { data } = response;
-        setWithExpiry("user", data.user);
-        if (data.user.role === "Admin") {
-          navigate(AdminPaths.DASHBOARD);
-        } else if (data.user.role === "Stock Manager") {
-          navigate(StockManPaths.DASHBOARD);
-        } else {
-          navigate(CashierPaths.DASHBOARD);
-        }
-      }
-    } catch (error) {
-      // Handle error
-    }
+    //   // If the response is OK, redirect to the appropriate dashboard based on user role
+    //   if (response.status === 200) {
+    //     const { data } = response;
+    //     setWithExpiry("user", data.user);
+    //     if (data.user.role === "Admin") {
+    //       navigate(AdminPaths.DASHBOARD);
+    //     } else if (data.user.role === "Stock Manager") {
+    //       navigate(StockManPaths.DASHBOARD);
+    //     } else {
+    //       navigate(CashierPaths.DASHBOARD);
+    //     }
+    //   }
+    // } catch (error) {
+    //   // Handle error
+    // }
+    navigate(AdminPaths.DASHBOARD)
   };
 
   return (

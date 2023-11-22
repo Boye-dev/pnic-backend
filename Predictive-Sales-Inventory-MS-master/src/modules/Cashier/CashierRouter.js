@@ -12,7 +12,7 @@ const CashierRouter = () => {
   return (
     <>
       <Routes>
-        <Route element={<ProtectRoutes />}>
+        {/* <Route element={<ProtectRoutes />}> */}
           <Route path={"make-sales"} element={<MakeSales />} />
           <Route path={"generate-receipt"} element={<Receipt />} />
           <Route element={<WithSidebar />}>
@@ -20,7 +20,7 @@ const CashierRouter = () => {
             <Route path={"products"} element={<Product />} />
             <Route path={"sales"} element={<Sales />} />
           </Route>
-        </Route>
+        {/* </Route> */}
       </Routes>
     </>
   );
