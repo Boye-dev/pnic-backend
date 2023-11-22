@@ -1,29 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.17e30337.css",
-    "main.js": "/static/js/main.55674238.js",
+    "main.css": "/static/css/main.073c9b0a.css",
+    "main.js": "/static/js/main.f99d012c.js",
     "static/js/787.68a72f44.chunk.js": "/static/js/787.68a72f44.chunk.js",
-    "static/media/shopping-cart.gif": "/static/media/shopping-cart.bd2f6fdaa1f08cf3744f.gif",
-    "static/media/PSIMSLogo.png": "/static/media/PSIMSLogo.1a7b5f065d3ce60cef8d.png",
-    "static/media/brownPerson.svg": "/static/media/brownPerson.eef82bf28f76b0d02d88c60f4e9bbc3a.svg",
-    "static/media/user.svg": "/static/media/user.eee5eb177ea8b2129f54ca59512617c1.svg",
-    "static/media/bluePerson.svg": "/static/media/bluePerson.00ddff277cb73e7f55ef305cafccc577.svg",
-    "static/media/greenPerson.svg": "/static/media/greenPerson.f54d70c232a9cae89c81fe043333a19b.svg",
-    "static/media/notification.svg": "/static/media/notification.cdd32052317c4e7097fe858c5a1a075d.svg",
     "index.html": "/index.html",
-    "static/media/homeWhite.svg": "/static/media/homeWhite.5e24b88f856e49a941d5f39e63472798.svg",
-    "static/media/invoice.svg": "/static/media/invoice.9197ccecbbce954ad391cc5a9ff5d2a4.svg",
-    "static/media/sales.svg": "/static/media/sales.5175040e86f531a6b62215f27ac45028.svg",
-    "static/media/productIcon.svg": "/static/media/productIcon.3a323c25dd64e82ebae9e93d94102fbe.svg",
-    "static/media/records.svg": "/static/media/records.5de1eb81d349e640f81edf0f5fd3ece1.svg",
-    "static/media/edit.svg": "/static/media/edit.b545250a02433d9daa1d6ed5c5bedaf6.svg",
-    "static/media/logout.svg": "/static/media/logout.981d6d2520c3e5230b3fe818d907ae12.svg",
-    "main.17e30337.css.map": "/static/css/main.17e30337.css.map",
-    "main.55674238.js.map": "/static/js/main.55674238.js.map",
+    "main.073c9b0a.css.map": "/static/css/main.073c9b0a.css.map",
+    "main.f99d012c.js.map": "/static/js/main.f99d012c.js.map",
     "787.68a72f44.chunk.js.map": "/static/js/787.68a72f44.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.17e30337.css",
-    "static/js/main.55674238.js"
+    "static/css/main.073c9b0a.css",
+    "static/js/main.f99d012c.js"
   ]
 }

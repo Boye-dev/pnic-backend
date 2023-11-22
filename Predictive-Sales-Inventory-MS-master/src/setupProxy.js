@@ -5,7 +5,7 @@ module.exports = function (app) {
     "/api",
     createProxyMiddleware({
       // target: "http://localhost:4000",
-      target: "https://pnic-backend-production.up.railway.app",
+      target: "https://pnic.up.railway.app",
 
       changeOrigin: true,
     })

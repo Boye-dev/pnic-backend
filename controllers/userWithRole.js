@@ -3,12 +3,7 @@ const express = require("express");
 const router = express.Router();
 const cron = require("node-cron");
 // Auth Middleware
-const {
-  authorize,
-  isAdmin,
-  isActive,
-  isAdminOrStockManager,
-} = require("../middleware/auth");
+const { authorize, isAdmin, isActive } = require("../middleware/auth");
 const {
   createUserWithRole,
   getUserById,
@@ -34,7 +29,7 @@ const Product = require("../models/product");
 const NotificationSchema = require("../models/NotificationSchema");
 const UserWithRole = require("../models/userWithRole");
 const Sale = require("../models/sale");
-const Purchase = require("../models/Purchase");
+const Purchase = require("../models/purchase");
 
 // To get an Admin specific details
 router.get("/user/:id", isAdmin, isActive, async (req, res) => {
@@ -403,7 +398,7 @@ router.get("/notifications", isAdmin, isActive, async (req, res) => {
   res.json(notifications);
 });
 
-router.get("/topusers", isAdminOrStockManager, isActive, async (req, res) => {
+router.get("/topusers", isAdmin, isActive, async (req, res) => {
   try {
     const sales = await Sale.aggregate([
       {
@@ -432,7 +427,7 @@ router.get("/topusers", isAdminOrStockManager, isActive, async (req, res) => {
   }
 });
 
-router.post("/purchase", isAdminOrStockManager, isActive, async (req, res) => {
+router.post("/purchase", isAdmin, isActive, async (req, res) => {
   try {
     const { vendorName, products } = req.body;
 
@@ -480,134 +475,72 @@ router.post("/purchase", isAdminOrStockManager, isActive, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-router.get("/purchases", isAdminOrStockManager, isActive, async (req, res) => {
+router.get("/purchases", isAdmin, isActive, async (req, res) => {
   try {
-    const purchases = await Purchase.find().populate("products.productId");
+    const purchases = await Purchase.find();
     res.json(purchases);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-router.put(
-  "/purchase/:id/deliver",
-  isAdminOrStockManager,
-  isActive,
-  async (req, res) => {
-    try {
-      // Find the purchase by ID
-      const purchase = await Purchase.findById(req.params.id);
-      if (!purchase) {
-        return res.status(404).json({ message: "Purchase not found" });
-      }
-
-      // Update the purchase status to "Delivered"
-      purchase.status = "Delivered";
-      await purchase.save();
-
-      // Iterate through the products and update the quantity
-      for (let i = 0; i < purchase.products.length; i++) {
-        const product = await Product.findById(purchase.products[i].productId);
-        if (!product) {
-          return res.status(404).json({ message: "Product not found" });
-        }
-
-        // Update the product quantity
-        product.unit += purchase.products[i].quantity;
-        await product.save();
-      }
-
-      res.json({
-        message: "Purchase delivered and product quantities updated",
-      });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
+router.put("/purchase/:id/deliver", isAdmin, isActive, async (req, res) => {
+  try {
+    // Find the purchase by ID
+    const purchase = await Purchase.findById(req.params.id);
+    if (!purchase) {
+      return res.status(404).json({ message: "Purchase not found" });
     }
+
+    // Update the purchase status to "Delivered"
+    purchase.status = "Delivered";
+    await purchase.save();
+
+    // Iterate through the products and update the quantity
+    for (let i = 0; i < purchase.products.length; i++) {
+      const product = await Product.findById(purchase.products[i].productId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      // Update the product quantity
+      product.unit += purchase.products[i].quantity;
+      await product.save();
+    }
+
+    res.json({ message: "Purchase delivered and product quantities updated" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-);
+});
 
 //Delete purchase
-router.delete(
-  "/purchase/:id",
-  isAdminOrStockManager,
-  isActive,
-  async (req, res) => {
-    try {
-      const purchase = await Purchase.findById(req.params.id);
-      if (!purchase) {
-        return res.status(404).json({ message: "Purchase not found" });
-      }
-      await purchase.remove();
-      res.json({ message: "Purchase deleted successfully" });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
-
-router.get(
-  "/purchase/:id",
-  isAdminOrStockManager,
-  isActive,
-  async (req, res) => {
-    try {
-      // Get the purchase id from the url parameters
-      const purchaseId = req.params.id;
-
-      // Find the purchase by id
-      const purchase = await Purchase.findById(purchaseId);
-      if (!purchase) {
-        return res.status(404).json({ message: "Purchase not found" });
-      }
-
-      res.json(purchase);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
-router.get("/statistics", async (req, res) => {
+router.delete("/purchase/:id", isAdmin, isActive, async (req, res) => {
   try {
-    // Get number of users
-    const totalUsers = await UserWithRole.countDocuments();
-    // Get number of active users
-    const activeUsers = await UserWithRole.countDocuments({ status: "Active" });
-    // Get number of products in stock
-    const productsInStock = await Product.countDocuments({ unit: { $gt: 0 } });
-    // Get number of products running out
-    const productsRunningOut = await Product.countDocuments({
-      unit: { $lt: 50 },
-    });
-    // Get number of products sold out
-    const productsSoldOut = await Product.countDocuments({ unit: { $lt: 1 } });
-    // Get total purchase amount
-    const totalPurchase = await Purchase.aggregate([
-      { $group: { _id: null, total: { $sum: "$total" } } },
-    ]);
-    // Get total sales amount
-    const totalSales = await Sale.aggregate([
-      { $group: { _id: null, total: { $sum: "$total" } } },
-    ]);
-    // Get number of pending purchases
-    const pendingPurchases = await Purchase.countDocuments({
-      status: "Pending",
-    });
+    const purchase = await Purchase.findById(req.params.id);
+    if (!purchase) {
+      return res.status(404).json({ message: "Purchase not found" });
+    }
+    await purchase.remove();
+    res.json({ message: "Purchase deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-    // Prepare response object
-    const statistics = {
-      totalUsers: totalUsers,
-      activeUsers: activeUsers,
-      productsInStock: productsInStock,
-      productsRunningOut: productsRunningOut,
-      productsSoldOut: productsSoldOut,
-      totalPurchase: totalPurchase[0].total || 0,
-      totalSales: totalSales[0].total || 0,
-      pendingPurchases: pendingPurchases,
-    };
+router.get("/purchase/:id", isAdmin, isActive, async (req, res) => {
+  try {
+    // Get the purchase id from the url parameters
+    const purchaseId = req.params.id;
 
-    res.status(200).json(statistics);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    // Find the purchase by id
+    const purchase = await Purchase.findById(purchaseId);
+    if (!purchase) {
+      return res.status(404).json({ message: "Purchase not found" });
+    }
+
+    res.json(purchase);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 module.exports = router;
