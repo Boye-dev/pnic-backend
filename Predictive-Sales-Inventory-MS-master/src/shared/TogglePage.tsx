@@ -1,10 +1,17 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const TogglePage = ({ name, activeTab, index, handleClick }) => {
+interface ITogglePage {
+  name: string;
+  activeTab: number;
+  index: number;
+  handleClick:  (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+}
+
+const TogglePage = ({ name, activeTab, index, handleClick }: ITogglePage) => {
   return (
     <Box
-      onClick={(event) => handleClick(event)}
+      onClick={(event:React.MouseEvent<HTMLDivElement, MouseEvent>)  => handleClick(event)}
       display="flex"
       alignItems="center"
       justifyContent="center"

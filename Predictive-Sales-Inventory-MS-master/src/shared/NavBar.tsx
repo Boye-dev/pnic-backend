@@ -13,10 +13,11 @@ import {
   ADMIN_NAV_ITEMS,
   CASHIER_NAV_ITEMS,
   STOCK_MAN_NAV_ITEMS,
-} from "../constants/navbarItems";
+} from '../../src/constants/navbarItems'
 import { Link } from "react-router-dom";
-import Auth from "../modules/Auth/auth";
+// import Auth from "../modules/Auth/auth";
 import { Box } from "@mui/material";
+import { INavItem } from "../../src/constants/navbarItems";
 
 export const drawerWidth = 212;
 
@@ -37,15 +38,15 @@ const SideNav = styled(List)({
   flexDirection: "column",
 });
 
-const NavBar = ({getCurrentAdmin}) => {
+const NavBar = ({getCurrentAdmin} : {getCurrentAdmin: string}) => {
   // const { getCurrentAdmin } = Auth;
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState<number| null>(null);
 
-  const handleItemClick = (index) => {
+  const handleItemClick = (index: number) => {
     setActiveIndex(index);
   };
 
-  const getButtonStyle = (index) => {
+  const getButtonStyle = (index: number) => {
     return activeIndex === index
       ? {
           borderBottom: "5px solid #FF7F11",
@@ -57,7 +58,7 @@ const NavBar = ({getCurrentAdmin}) => {
       : {};
   };
 
-  const getTextStyle = (index) => {
+  const getTextStyle = (index: number) => {
     return activeIndex === index
       ? {
           color: "blue",
@@ -86,7 +87,7 @@ const NavBar = ({getCurrentAdmin}) => {
         <SideNav sx={{ marginX: "25px" }}>
           {/* {getCurrentAdmin()?.role === "Admin" */}
           {getCurrentAdmin === "Admin"
-            ? ADMIN_NAV_ITEMS.map((x, index) => (
+            ? ADMIN_NAV_ITEMS.map((x: INavItem, index: number) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton
                     sx={{ marginY: "10px", ...getButtonStyle(index) }}
@@ -109,7 +110,7 @@ const NavBar = ({getCurrentAdmin}) => {
               ))
             // : getCurrentAdmin()?.role === "Stock Manager"
             : getCurrentAdmin === "Stock Manager"
-            ? STOCK_MAN_NAV_ITEMS.map((x, index) => (
+            ? STOCK_MAN_NAV_ITEMS.map((x: INavItem, index: number) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton
                     sx={{ marginY: "10px", ...getButtonStyle(index) }}
@@ -130,7 +131,7 @@ const NavBar = ({getCurrentAdmin}) => {
                   </ListItemButton>
                 </ListItem>
               ))
-            : CASHIER_NAV_ITEMS.map((x, index) => (
+            : CASHIER_NAV_ITEMS.map((x: INavItem, index: number) => (
                 <ListItem key={x.name} disablePadding>
                   <ListItemButton
                     sx={{ marginY: "10px", ...getButtonStyle(index) }}
