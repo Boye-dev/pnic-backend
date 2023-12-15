@@ -6,7 +6,13 @@ import { ReactComponent as RecordIcon } from "../assets/svgs/records.svg";
 // import { ReactComponent as SettingsIcon } from "../assets/svgs/settings.svg";
 import { AdminPaths, StockManPaths, CashierPaths } from "../routes/paths";
 
-export const ADMIN_NAV_ITEMS = [
+export interface INavItem {
+  name: string;
+  url: string;
+  icon: (active?: boolean) => React.ReactElement;
+}[]
+
+export const ADMIN_NAV_ITEMS: INavItem[] = [
   {
     name: "Dashboard",
     url: AdminPaths.DASHBOARD,
@@ -34,7 +40,7 @@ export const ADMIN_NAV_ITEMS = [
   // },
 ];
 
-export const STOCK_MAN_NAV_ITEMS = [
+export const STOCK_MAN_NAV_ITEMS: INavItem[] = [
   {
     name: "Dashboard",
     url: StockManPaths.DASHBOARD,
@@ -57,7 +63,7 @@ export const STOCK_MAN_NAV_ITEMS = [
   // },
 ];
 
-export const CASHIER_NAV_ITEMS = [
+export const CASHIER_NAV_ITEMS: INavItem[] = [
   {
     name: "Dashboard",
     url: CashierPaths.DASHBOARD,
@@ -75,7 +81,7 @@ export const CASHIER_NAV_ITEMS = [
   },
 ];
 
-export const LOGOUT_NAV = {
+export const LOGOUT_NAV: INavItem = {
   name: "Logout",
   url: "",
   icon: (active) => <LogoutOn />,

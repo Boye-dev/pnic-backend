@@ -13,7 +13,7 @@ import NewProduct from "../components/ProductsComponent/NewProduct";
 import { formatCurrency } from "../../../shared/Categpries";
 import api from "../../../api/api";
 import EmptyState from "../../../shared/EmptyState";
-import { AdminPaths } from "../../../routes/paths.js";
+import { AdminPaths } from "../../../routes/paths";
 import { useNavigate } from "react-router-dom";
 import ProductAction from "../components/ProductsComponent/ProductAction.jsx";
 

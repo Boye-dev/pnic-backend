@@ -4,9 +4,9 @@ import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Table from "../../../../shared/Table.jsx";
+import Table from "../../../../shared/Table";
 import { formatCurrency } from "../../../../shared/Categpries";
-import { AdminPaths } from "../../../../routes/paths.js";
+import { AdminPaths } from "../../../../routes/paths";
 
 const PurchaseSummary = () => {
   const navigate = useNavigate();

@@ -2,13 +2,17 @@ import React from "react";
 import { Button, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
+interface IButtonProps{
+  isLoading?: boolean;
+  children: string | React.ReactElement;
+  onClick: () => void;
+}
+
 const LoadingButton = ({
   isLoading,
-  variant = "contained",
-  color = "primary",
   children,
   onClick,
-}) => {
+}:IButtonProps ) => {
   const ColorButton = styled(Button)(() => ({
     backgroundColor: "#FF7F11",
     color: "white",

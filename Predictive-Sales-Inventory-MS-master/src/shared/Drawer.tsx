@@ -3,6 +3,16 @@ import { Button, Drawer as MUIDrawer, Typography, Box } from "@mui/material";
 import React from "react";
 import LoadingButton from "./LoadingButton";
 
+interface IDrawerProps {
+  open : boolean;
+  onClose: () => boolean;
+  children: React.ReactNode;
+  title:  string;
+  cancelText: string;
+  onOk: () => void;
+  okText: string;
+}
+
 const Drawer = ({
   open,
   onClose,
@@ -11,7 +21,7 @@ const Drawer = ({
   cancelText = "Cancel",
   onOk,
   okText = "Submit",
-}) => {
+}: IDrawerProps) => {
   return (
     <MUIDrawer
       sx={{ minWidth: "100px", position: "relative" }}
@@ -53,7 +63,7 @@ const Drawer = ({
         sx={{ bottom: 0, zIndex: 1, right: 0 }}
       >
         <Button
-          variant={onOk ? "text" : "contained"}
+          variant={okText ? "text" : "contained"}
           onClick={() => onClose()}
           sx={{ marginRight: "1rem" }}
         >

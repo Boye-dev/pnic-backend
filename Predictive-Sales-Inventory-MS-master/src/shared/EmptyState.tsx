@@ -1,9 +1,9 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import shoppingCart from "../assets/gifs/shopping-cart.gif";
 import { Typography } from "@mui/material";
+import shoppingCart from "../assets/gifs/shopping-cart.gif";
 
-const EmptyState = ({ emptyText }) => {
+const EmptyState = ({ emptyText } : {emptyText: string}) => {
   return (
     <>
       <Box

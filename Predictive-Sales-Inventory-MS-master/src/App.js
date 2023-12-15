@@ -2,6 +2,7 @@ import "./App.css";
 import NavBar from "./shared/NavBar";
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 const AdminRouter = lazy(() => import("./modules/Admin/AdminRouter"));
 const StockManRouter = lazy(() => import("./modules/StockMan/StockManRouter"));
 const CashierRouter = lazy(() => import("./modules/Cashier/CashierRouter"));
